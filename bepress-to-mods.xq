@@ -23,6 +23,8 @@ declare option output:indent "yes";
   note: two different dbs for testing:
   1) bepress-small-sample doesn't have binaries
   2) bepress-small-sample-all does
+
+  second approach: processing using fn:collection against a directory
 :)
 for $doc in db:open('bepress-small-sample-all')
 let $doc-path := fn:replace(fn:document-uri($doc), 'metadata.xml', '')
@@ -36,7 +38,7 @@ let $withdrawn-status := $doc-content/withdrawn
 let $sub-path := $doc-content/submission-path/text()
 (: names :)
 let $author-l := $doc-content/authors/author/lname/text()
-  (: multiple authors? :)
+(: multiple authors? :)
 let $author-g := if ($doc-content/authors/author/mname)
                  then ($doc-content/authors/author/fname || ' ' || $doc-content/authors/author/mname/text())
                  else ($doc-content/authors/author/fname)
@@ -44,8 +46,20 @@ let $author-s := $doc-content/authors/author/suffix/text()
 let $advisor := $doc-content/fields/field[@name='advisor1']/value/text()
 let $committee-mem := $doc-content/fields/field[@name='advisor2']/value/text()
 
+let $degree-name := $doc-content/fields/field[@name='degree_name']/value/text()
+let $dept-name := $doc-content/fields/field[@name='department']/value/text()
+let $embargo := substring-before($doc-content/fields/field[@name='embargo_date']/value/text(), 'T')
 
+let $src_ftxt_url := $doc-content/fields/field[@name='source_fulltext_url']/value/text()
+
+let $comments := $doc-content/fields/field[@name='comments']/value/text()
+let $discipline := $doc-content/disciplines/discipline/text()
 let $abstract := cob:escape($doc-content/abstract/text())
+let $keywords := for $k in ($doc-content/keywords/keyword/text()) return fn:string-join($k, ', ')
+
+(: supplemental files :)
+let $suppl-archive-name := $doc-content/supplemental-files/file/archive-name/text()
+let $suppl-file-mimetype := $doc-content/supplemental-files/file/mimetype/text()
 
 (: theses/dissertations-specific :)
 (: genre authority :)
