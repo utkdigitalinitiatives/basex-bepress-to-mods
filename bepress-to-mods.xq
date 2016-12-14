@@ -41,9 +41,14 @@ let $abstract := cob:escape($doc-content/abstract/text())
 
 
 return (
+  (: example output for testing :)
   <test>
     <path>{$doc-path}</path>
     <db>{$doc-db-path}</db>
     {for $c in $committee-mem return <com>{$c}</com>}
   </test>
+), file:write(fn:concat($doc-db-path, 'MODS.xml'),
+  <mods xmlns="http://www.loc.gov/mods/v3" version="3.5" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
+    <!-- build us a mods document here -->
+  </mods>
 )
