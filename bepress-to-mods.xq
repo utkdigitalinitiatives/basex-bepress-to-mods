@@ -19,9 +19,14 @@ declare option output:encoding "UTF-8";
 declare option output:indent "yes";
 
 (: initial FLOWR :)
-for $doc in db:open('bepress-small-sample')
+(:
+  note: two different dbs for testing:
+  1) bepress-small-sample doesn't have binaries
+  2) bepress-small-sample-all does
+:)
+for $doc in db:open('bepress-small-sample-all')
 let $doc-path := fn:replace(fn:document-uri($doc), 'metadata.xml', '')
-let $doc-db-path := db:path($doc)
+let $doc-db-path := fn:replace(db:path($doc), 'metadata.xml', '')
 let $doc-content := $doc/documents/document
 let $title := cob:escape($doc-content/title/text())
 let $pub-date := fn:substring-before($doc-content/publication-date/text(), 'T')
@@ -31,7 +36,10 @@ let $withdrawn-status := $doc-content/withdrawn
 let $sub-path := $doc-content/submission-path/text()
 (: names :)
 let $author-l := $doc-content/authors/author/lname/text()
-let $author-f := $doc-content/authors/author/fname/text()
+  (: multiple authors? :)
+let $author-g := if ($doc-content/authors/author/mname)
+                 then ($doc-content/authors/author/fname || ' ' || $doc-content/authors/author/mname/text())
+                 else ($doc-content/authors/author/fname)
 let $author-s := $doc-content/authors/author/suffix/text()
 let $advisor := $doc-content/fields/field[@name='advisor1']/value/text()
 let $committee-mem := $doc-content/fields/field[@name='advisor2']/value/text()
@@ -39,16 +47,27 @@ let $committee-mem := $doc-content/fields/field[@name='advisor2']/value/text()
 
 let $abstract := cob:escape($doc-content/abstract/text())
 
+(: theses/dissertations-specific :)
+(: genre authority :)
+(: ?? :)
+
 
 return (
   (: example output for testing :)
   <test>
     <path>{$doc-path}</path>
     <db>{$doc-db-path}</db>
+    <files>
+      <!--  {for $f in file:list($doc-db-path) return <file>{$f}</file>} -->
+      <bad>{db:list('bepress-small-sample-all', $doc-db-path)}</bad>
+      <test>{for $i in db:list('bepress-small-sample-all', $doc-db-path) return <thing>{(fn:substring-after($i, '/'))}</thing>}</test>
+    </files>
     {for $c in $committee-mem return <com>{$c}</com>}
   </test>
-), file:write(fn:concat($doc-db-path, 'MODS.xml'),
+) 
+
+(: file:write(fn:concat($doc-db-path, 'MODS.xml'),
   <mods xmlns="http://www.loc.gov/mods/v3" version="3.5" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
     <!-- build us a mods document here -->
   </mods>
-)
+:)  
