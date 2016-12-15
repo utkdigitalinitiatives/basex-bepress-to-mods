@@ -1,3 +1,7 @@
+for $i in 1 to 5
+return
+  $i
+
 (: basic notes :)
 
 (: return file:write(
