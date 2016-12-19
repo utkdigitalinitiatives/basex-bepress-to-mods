@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6cd7ac59-dbdf-40ef-8814-2677b4383194" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sample-data-uris.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bepress-to-mods.xq" afterPath="$PROJECT_DIR$/bepress-to-mods.xq" />
     </list>
@@ -24,40 +23,48 @@
     <favorites_list name="basex-bepress-to-mods" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="bepress-to-mods.xq" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/bepress-to-mods.xq">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="56">
-              <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-              <folding>
-                <element signature="e#261#315#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="metadata.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sample-data/1312/metadata.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="bepress-test.xqm" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/bepress-test.xqm">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="56">
-              <caret line="4" column="16" lean-forward="false" selection-start-line="4" selection-start-column="16" selection-end-line="4" selection-end-column="16" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="vertical" split-proportion="0.7325428">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file leaf-file-name="bepress-to-mods.xq" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/bepress-to-mods.xq">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="354">
+                  <caret line="93" column="43" lean-forward="false" selection-start-line="93" selection-start-column="43" selection-end-line="93" selection-end-column="43" />
+                  <folding>
+                    <element signature="e#261#315#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="metadata.xml" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/sample-data/1312/metadata.xml">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="0">
+                  <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file leaf-file-name="bepress-test.xqm" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/bepress-test.xqm">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="56">
+                  <caret line="4" column="16" lean-forward="false" selection-start-line="4" selection-start-column="16" selection-end-line="4" selection-end-column="16" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="GradleLocalSettings">
     <option name="modificationStamps">
@@ -91,7 +98,6 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="44" />
     <option name="width" value="1553" />
     <option name="height" value="879" />
   </component>
@@ -550,6 +556,9 @@
       <option name="isNonInteractiveModeEnabled" value="false" />
       <option name="isCompileTimeBreakpointsEnabled" value="false" />
       <option name="initCode" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="#com.siberika.idea.pascal.run.PascalConfigurationType" factoryName="Pascal executable">
       <method />
     </configuration>
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
@@ -1140,7 +1149,7 @@
       <workItem from="1481833073457" duration="29000" />
       <workItem from="1481833210111" duration="202000" />
       <workItem from="1482110445621" duration="1525000" />
-      <workItem from="1482119112479" duration="3399000" />
+      <workItem from="1482119112479" duration="8165000" />
     </task>
     <task id="LOCAL-00001" summary="initialize repository; add README">
       <created>1477873156144</created>
@@ -1170,15 +1179,22 @@
       <option name="project" value="LOCAL" />
       <updated>1481753013122</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="update testing in main xq; add uris catalog xml document">
+      <created>1482161514756</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1482161514756</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="30877000" />
+    <option name="totallyTimeSpent" value="35643000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="44" y="0" width="1553" height="879" extended-state="0" />
-    <editor active="false" />
+    <frame x="0" y="0" width="1553" height="879" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1192,7 +1208,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1628061" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1628061" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32938075" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1247,7 +1263,8 @@
     <MESSAGE value="add bepress-test.xqm. this is a test file, and in no way complete." />
     <MESSAGE value="update main xq with file:write" />
     <MESSAGE value="update main xq with some more variables and paths" />
-    <option name="LAST_COMMIT_MESSAGE" value="update main xq with some more variables and paths" />
+    <MESSAGE value="update testing in main xq; add uris catalog xml document" />
+    <option name="LAST_COMMIT_MESSAGE" value="update testing in main xq; add uris catalog xml document" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1289,10 +1306,10 @@
         <state relative-caret-position="294">
           <caret line="21" column="96" lean-forward="false" selection-start-line="21" selection-start-column="96" selection-end-line="21" selection-end-column="96" />
           <folding>
-            <element signature="e#740#744#0" expanded="true" />
-            <element signature="e#771#775#0" expanded="true" />
-            <element signature="e#793#797#0" expanded="true" />
-            <element signature="e#799#803#0" expanded="true" />
+            <element signature="e#740#744#0" expanded="false" />
+            <element signature="e#771#775#0" expanded="false" />
+            <element signature="e#793#797#0" expanded="false" />
+            <element signature="e#799#803#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1328,10 +1345,10 @@
         <state relative-caret-position="294">
           <caret line="21" column="96" lean-forward="false" selection-start-line="21" selection-start-column="96" selection-end-line="21" selection-end-column="96" />
           <folding>
-            <element signature="e#740#744#0" expanded="true" />
-            <element signature="e#771#775#0" expanded="true" />
-            <element signature="e#793#797#0" expanded="true" />
-            <element signature="e#799#803#0" expanded="true" />
+            <element signature="e#740#744#0" expanded="false" />
+            <element signature="e#771#775#0" expanded="false" />
+            <element signature="e#793#797#0" expanded="false" />
+            <element signature="e#799#803#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1367,10 +1384,10 @@
         <state relative-caret-position="294">
           <caret line="21" column="96" lean-forward="false" selection-start-line="21" selection-start-column="96" selection-end-line="21" selection-end-column="96" />
           <folding>
-            <element signature="e#740#744#0" expanded="true" />
-            <element signature="e#771#775#0" expanded="true" />
-            <element signature="e#793#797#0" expanded="true" />
-            <element signature="e#799#803#0" expanded="true" />
+            <element signature="e#740#744#0" expanded="false" />
+            <element signature="e#771#775#0" expanded="false" />
+            <element signature="e#793#797#0" expanded="false" />
+            <element signature="e#799#803#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1406,10 +1423,10 @@
         <state relative-caret-position="294">
           <caret line="21" column="96" lean-forward="false" selection-start-line="21" selection-start-column="96" selection-end-line="21" selection-end-column="96" />
           <folding>
-            <element signature="e#740#744#0" expanded="true" />
-            <element signature="e#771#775#0" expanded="true" />
-            <element signature="e#793#797#0" expanded="true" />
-            <element signature="e#799#803#0" expanded="true" />
+            <element signature="e#740#744#0" expanded="false" />
+            <element signature="e#771#775#0" expanded="false" />
+            <element signature="e#793#797#0" expanded="false" />
+            <element signature="e#799#803#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1445,10 +1462,10 @@
         <state relative-caret-position="294">
           <caret line="21" column="96" lean-forward="false" selection-start-line="21" selection-start-column="96" selection-end-line="21" selection-end-column="96" />
           <folding>
-            <element signature="e#740#744#0" expanded="true" />
-            <element signature="e#771#775#0" expanded="true" />
-            <element signature="e#793#797#0" expanded="true" />
-            <element signature="e#799#803#0" expanded="true" />
+            <element signature="e#740#744#0" expanded="false" />
+            <element signature="e#771#775#0" expanded="false" />
+            <element signature="e#793#797#0" expanded="false" />
+            <element signature="e#799#803#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1592,6 +1609,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/sample-data/0000/metadata.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="269">
+          <caret line="21" column="96" lean-forward="false" selection-start-line="21" selection-start-column="96" selection-end-line="21" selection-end-column="96" />
+          <folding>
+            <element signature="e#740#744#0" expanded="false" />
+            <element signature="e#771#775#0" expanded="false" />
+            <element signature="e#793#797#0" expanded="false" />
+            <element signature="e#799#803#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/bepress-test.xqm">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="56">
@@ -1600,23 +1630,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sample-data/0000/metadata.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="269">
-          <caret line="21" column="96" lean-forward="false" selection-start-line="21" selection-start-column="96" selection-end-line="21" selection-end-column="96" />
-          <folding>
-            <element signature="e#740#744#0" expanded="true" />
-            <element signature="e#771#775#0" expanded="true" />
-            <element signature="e#793#797#0" expanded="true" />
-            <element signature="e#799#803#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/bepress-to-mods.xq">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="56">
-          <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+        <state relative-caret-position="354">
+          <caret line="93" column="43" lean-forward="false" selection-start-line="93" selection-start-column="43" selection-end-line="93" selection-end-column="43" />
           <folding>
             <element signature="e#261#315#0" expanded="true" />
           </folding>

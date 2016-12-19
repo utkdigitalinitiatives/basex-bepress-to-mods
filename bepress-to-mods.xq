@@ -29,24 +29,25 @@ declare option output:indent "yes";
 :)
 (: for $doc in db:open('bepress-small-sample') :)
 (:for $doc in fn:collection('/usr/home/bridger/bin/basex/repo/basex-bepress-to-mods/sample-data/'):)
+
 for $doc in fn:doc('/usr/home/bridger/bin/basex/repo/basex-bepress-to-mods/sample-data-uris.xml')//@href/doc(.)
 let $test-doc := document-uri($doc)
 let $doc-path := fn:replace(fn:document-uri($doc), 'metadata.xml', '')
 (:let $doc-db-path := fn:replace(db:path($doc), 'metadata.xml', ''):)
 let $doc-content := $doc/documents/document
-let $title := cob:escape($doc-content/title/text())
+let $title := $doc-content/title/text()
 let $pub-date := fn:substring-before($doc-content/publication-date/text(), 'T')
 let $pub-title := $doc-content/publication-title/text()
 let $sub-date := $doc-content/submission-date/text()
 let $withdrawn-status := $doc-content/withdrawn
 let $sub-path := $doc-content/submission-path/text()
 (: names :)
-let $author-l := $doc-content/authors/author/lname/text()
+let $author-name-l := $doc-content/authors/author/lname/text()
 (: multiple authors? :)
-let $author-g := if ($doc-content/authors/author/mname)
+let $author-name-g := if ($doc-content/authors/author/mname)
                  then ($doc-content/authors/author/fname || ' ' || $doc-content/authors/author/mname/text())
                  else ($doc-content/authors/author/fname)
-let $author-s := $doc-content/authors/author/suffix/text()
+let $author-name-s := $doc-content/authors/author/suffix/text()
 let $advisor := $doc-content/fields/field[@name='advisor1']/value/text()
 let $committee-mem := $doc-content/fields/field[@name='advisor2']/value/text()
 
@@ -58,7 +59,7 @@ let $src_ftxt_url := $doc-content/fields/field[@name='source_fulltext_url']/valu
 
 let $comments := $doc-content/fields/field[@name='comments']/value/text()
 let $discipline := $doc-content/disciplines/discipline/text()
-let $abstract := cob:escape($doc-content/abstract/text())
+let $abstract := $doc-content/abstract/text()
 let $keywords := for $k in ($doc-content/keywords/keyword/text()) return fn:string-join($k, ', ')
 
 (: supplemental files :)
@@ -73,7 +74,46 @@ let $suppl-desc := $doc-content/supplemental-files/file/description/text()
 (: ?? :)
 
 
-return (
+return file:write(fn:concat($doc-path, 'MODS.xml'),
+  <mods xmlns="" version="" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
+    <identifer type="local"></identifer>
+    <name>
+      <namePart type="family"></namePart>
+      <namePart type="given"></namePart>
+      {if ($author-name-s) then <namePart type="termsOfAddress"></namePart> else ()}
+      <role>
+        <roleTerm type="text" authority="marcrelator" valueURI="http://id.loc.gov/vocabulary/relators/aut">Author</roleTerm>
+      </role>
+    </name>
+    <name>
+      <displayForm></displayForm>
+      <role>
+        <roleTerm type="text" authority="marcrelator" valueURI="http://id.loc.gov/vocabulary/relators/ths">Thesis advisor</roleTerm>
+      </role>
+    </name>
+    {for $n in $committee-mem return <name></name>}
+    <titleInfo>
+      <title></title>
+    </titleInfo>
+    <abstract></abstract>
+
+    <originInfo>
+      <dateIssued keyDate="yes"></dateIssued>
+    </originInfo>
+    <relatedItem type="series">
+      <titleInfo lang="eng">
+        <title></title>
+      </titleInfo>
+    </relatedItem>
+    <recordInfo></recordInfo>
+    {if (some-thing-utk_grad_whatever) then (make_the_genre_stuff) else ()}
+  </mods>
+) 
+
+(: file:write(fn:concat($doc-db-path, 'MODS.xml'),
+  <mods xmlns="http://www.loc.gov/mods/v3" version="3.5" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
+    <!-- build us a mods document here -->
+  </mods>
   (: example output for testing :)
   <test>
     <path>{$doc-path}</path>
@@ -87,10 +127,5 @@ return (
     </files>
     {for $c in $committee-mem return <com>{$c}</com>}
   </test>
-) 
 
-(: file:write(fn:concat($doc-db-path, 'MODS.xml'),
-  <mods xmlns="http://www.loc.gov/mods/v3" version="3.5" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
-    <!-- build us a mods document here -->
-  </mods>
 :)  
