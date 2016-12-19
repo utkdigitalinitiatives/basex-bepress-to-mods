@@ -25,10 +25,14 @@ declare option output:indent "yes";
   2) bepress-small-sample-all does
 
   second approach: processing using fn:collection against a directory
+  /usr/home/bridger/bin/basex/repo/basex-bepress-to-mods/sample-data
 :)
-for $doc in db:open('bepress-small-sample-all')
+(: for $doc in db:open('bepress-small-sample') :)
+(:for $doc in fn:collection('/usr/home/bridger/bin/basex/repo/basex-bepress-to-mods/sample-data/'):)
+for $doc in fn:doc('/usr/home/bridger/bin/basex/repo/basex-bepress-to-mods/sample-data-uris.xml')//@href/doc(.)
+let $test-doc := document-uri($doc)
 let $doc-path := fn:replace(fn:document-uri($doc), 'metadata.xml', '')
-let $doc-db-path := fn:replace(db:path($doc), 'metadata.xml', '')
+(:let $doc-db-path := fn:replace(db:path($doc), 'metadata.xml', ''):)
 let $doc-content := $doc/documents/document
 let $title := cob:escape($doc-content/title/text())
 let $pub-date := fn:substring-before($doc-content/publication-date/text(), 'T')
@@ -59,7 +63,10 @@ let $keywords := for $k in ($doc-content/keywords/keyword/text()) return fn:stri
 
 (: supplemental files :)
 let $suppl-archive-name := $doc-content/supplemental-files/file/archive-name/text()
-let $suppl-file-mimetype := $doc-content/supplemental-files/file/mimetype/text()
+let $suppl-mimetype := $doc-content/supplemental-files/file/mimetype/text()
+let $suppl-desc := $doc-content/supplemental-files/file/description/text()
+
+
 
 (: theses/dissertations-specific :)
 (: genre authority :)
@@ -70,11 +77,13 @@ return (
   (: example output for testing :)
   <test>
     <path>{$doc-path}</path>
-    <db>{$doc-db-path}</db>
+    <thing>is true? see: {$test-doc}</thing>
+    <!--<db>{$doc-db-path}</db>-->
     <files>
       <!--  {for $f in file:list($doc-db-path) return <file>{$f}</file>} -->
-      <bad>{db:list('bepress-small-sample-all', $doc-db-path)}</bad>
-      <test>{for $i in db:list('bepress-small-sample-all', $doc-db-path) return <thing>{(fn:substring-after($i, '/'))}</thing>}</test>
+      <!--<bad>{db:list('bepress-small-sample', $doc-db-path)}</bad>-->
+      <!--<test>{for $i in db:list('bepress-small-sample', $doc-db-path) return <thing>{(fn:substring-after($i, '/'))}</thing>}</test>-->
+      <!-- <second>{for $i in file:list(substring-before(db:list('bepress-small-sample', $doc-db-path), 'metadata.xml')) return <nd2>{$i}</nd2>}</second> -->
     </files>
     {for $c in $committee-mem return <com>{$c}</com>}
   </test>
