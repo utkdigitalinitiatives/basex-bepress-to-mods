@@ -5,6 +5,7 @@
 
 (: imports :)
 import module namespace cob = 'http://cob.net/ns' at 'modules/escape.xqm';
+import module namespace functx = 'http://www.functx.com';
 
 
 (: namespaces and options :)
@@ -53,6 +54,7 @@ let $abstract := $doc-content/abstract/text()
 let $keywords := $doc-content/keywords//keyword/text()
 
 (: supplemental files :)
+let $file-list := file:list($doc-path)
 let $suppl-archive-name := $doc-content/supplemental-files/file/archive-name/text()
 let $suppl-mimetype := $doc-content/supplemental-files/file/mimetype/text()
 let $suppl-desc := $doc-content/supplemental-files/file/description/text()
@@ -133,7 +135,31 @@ return file:write(concat($doc-path, 'MODS.xml'),
       </titleInfo>
     </relatedItem>
 
-    {for $f in file:list($doc-path) return <related>{$f}</related>}
+    <testFILE_LIST>{$file-list}</testFILE_LIST>
+    <testSUPPL_LIST>{$suppl-archive-name}</testSUPPL_LIST>
+
+    {for $f in (file:list($doc-path))
+      let $f-less := replace($f, '^\d{1,}-', '')
+      where (matches($f, '^\d{1,}-'))
+      order by $f
+        return  <relatedItem type="constituent">
+                  <titleInfo><title>{$f}</title></titleInfo>
+                  <physicalDescription>
+                    <internetMediaType>{$suppl-mimetype}</internetMediaType>
+                  </physicalDescription>
+                  {if ($suppl-desc) then (<abtract>{$suppl-desc}</abtract>) else()}
+                    <!--{if ($suppl-archive-name/matches(replace(., '^\d{1,}-', ''), $f-less))
+                    then (<physicalDescription>
+                        <internetMediaType>{$suppl-mimetype}</internetMediaType>
+                      </physicalDescription>)
+                    else (<physicalDescription>
+                        <internetMediaType>{fetch:content-type($doc-path || $f)}</internetMediaType>
+                      </physicalDescription>)}
+          {if ($suppl-desc) then (<abtract>{$suppl-desc}</abtract>) else()}-->
+        </relatedItem>}
+
+
+    {if (some-thing-utk_grad_whatever) then (make_the_genre_stuff) else ()}
 
     <recordInfo>
       <recordCreationDate encoding="w3cdtf">{$sub-date}</recordCreationDate>
@@ -142,6 +168,5 @@ return file:write(concat($doc-path, 'MODS.xml'),
       <recordChangeDate encoding="w3cdtf">{$c-date}</recordChangeDate>
     </recordInfo>
 
-    {if (some-thing-utk_grad_whatever) then (make_the_genre_stuff) else ()}
   </mods>
 )
