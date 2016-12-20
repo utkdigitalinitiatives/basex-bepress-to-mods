@@ -19,17 +19,6 @@ declare option output:encoding "UTF-8";
 declare option output:indent "yes";
 
 (: initial FLOWR :)
-(:
-  note: two different dbs for testing:
-  1) bepress-small-sample doesn't have binaries
-  2) bepress-small-sample-all does
-
-  second approach: processing using collection against a directory
-  /usr/home/bridger/bin/basex/repo/basex-bepress-to-mods/sample-data
-:)
-(: for $doc in db:open('bepress-small-sample') :)
-(:for $doc in collection('/usr/home/bridger/bin/basex/repo/basex-bepress-to-mods/sample-data/'):)
-
 for $doc in doc('/usr/home/bridger/bin/basex/repo/basex-bepress-to-mods/sample-data-uris.xml')//@href/doc(.)
 let $test-doc := document-uri($doc)
 let $doc-path := replace(document-uri($doc), 'metadata.xml', '')
