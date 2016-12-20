@@ -24,19 +24,19 @@ declare option output:indent "yes";
   1) bepress-small-sample doesn't have binaries
   2) bepress-small-sample-all does
 
-  second approach: processing using fn:collection against a directory
+  second approach: processing using collection against a directory
   /usr/home/bridger/bin/basex/repo/basex-bepress-to-mods/sample-data
 :)
 (: for $doc in db:open('bepress-small-sample') :)
-(:for $doc in fn:collection('/usr/home/bridger/bin/basex/repo/basex-bepress-to-mods/sample-data/'):)
+(:for $doc in collection('/usr/home/bridger/bin/basex/repo/basex-bepress-to-mods/sample-data/'):)
 
-for $doc in fn:doc('/usr/home/bridger/bin/basex/repo/basex-bepress-to-mods/sample-data-uris.xml')//@href/doc(.)
+for $doc in doc('/usr/home/bridger/bin/basex/repo/basex-bepress-to-mods/sample-data-uris.xml')//@href/doc(.)
 let $test-doc := document-uri($doc)
-let $doc-path := fn:replace(fn:document-uri($doc), 'metadata.xml', '')
-(:let $doc-db-path := fn:replace(db:path($doc), 'metadata.xml', ''):)
+let $doc-path := replace(document-uri($doc), 'metadata.xml', '')
+(:let $doc-db-path := replace(db:path($doc), 'metadata.xml', ''):)
 let $doc-content := $doc/documents/document
 let $title := $doc-content/title/text()
-let $pub-date := fn:substring-before($doc-content/publication-date/text(), 'T')
+let $pub-date := substring-before($doc-content/publication-date/text(), 'T')
 let $pub-title := $doc-content/publication-title/text()
 let $sub-date := $doc-content/submission-date/text()
 let $withdrawn-status := $doc-content/withdrawn
@@ -60,7 +60,7 @@ let $src_ftxt_url := $doc-content/fields/field[@name='source_fulltext_url']/valu
 let $comments := $doc-content/fields/field[@name='comments']/value/text()
 let $discipline := $doc-content/disciplines/discipline/text()
 let $abstract := $doc-content/abstract/text()
-let $keywords := for $k in ($doc-content/keywords/keyword/text()) return fn:string-join($k, ', ')
+let $keywords := for $k in ($doc-content/keywords/keyword/text()) return string-join($k, ', ')
 
 (: supplemental files :)
 let $suppl-archive-name := $doc-content/supplemental-files/file/archive-name/text()
@@ -76,8 +76,8 @@ let $c-date := format-dateTime(current-dateTime(), '[Y]-[M,2]-[D,2]T[H]:[m]:[s][
 (: ?? :)
 
 
-return file:write(fn:concat($doc-path, 'MODS.xml'),
-  <mods xmlns="" version="" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
+return file:write(concat($doc-path, 'MODS.xml'),
+  <mods xmlns="http://www.loc.gov/mods/v3" version="3.5" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
     <identifer type="local">{$sub-path}</identifer>
     <name>
       <namePart type="family">{$author-name-l}</namePart>
