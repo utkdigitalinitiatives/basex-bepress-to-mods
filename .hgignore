@@ -2,3 +2,5 @@
 syntax: glob
 
 sample-data
+.idea/workspace.xml
+.idea/tasks.xml
