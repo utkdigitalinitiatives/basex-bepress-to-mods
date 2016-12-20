@@ -23,14 +23,14 @@
     <favorites_list name="basex-bepress-to-mods" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="vertical" split-proportion="0.7325428">
+    <splitter split-orientation="vertical" split-proportion="0.73781294">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="bepress-to-mods.xq" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/bepress-to-mods.xq">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="356">
-                  <caret line="107" column="79" lean-forward="false" selection-start-line="107" selection-start-column="79" selection-end-line="107" selection-end-column="79" />
+                <state relative-caret-position="460">
+                  <caret line="70" column="80" lean-forward="false" selection-start-line="70" selection-start-column="80" selection-end-line="70" selection-end-column="80" />
                   <folding>
                     <element signature="e#261#315#0" expanded="true" />
                   </folding>
@@ -52,12 +52,14 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="bepress-test.xqm" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/bepress-test.xqm">
+          <file leaf-file-name="bepress-to-mods.xq" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/bepress-to-mods.xq">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="56">
-                  <caret line="4" column="16" lean-forward="false" selection-start-line="4" selection-start-column="16" selection-end-line="4" selection-end-column="16" />
-                  <folding />
+                <state relative-caret-position="79">
+                  <caret line="119" column="32" lean-forward="false" selection-start-line="119" selection-start-column="32" selection-end-line="119" selection-end-column="32" />
+                  <folding>
+                    <element signature="e#261#315#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -408,7 +410,7 @@
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="preferences.externalTools" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.appearance" />
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
@@ -1152,7 +1154,7 @@
       <workItem from="1481833073457" duration="29000" />
       <workItem from="1481833210111" duration="202000" />
       <workItem from="1482110445621" duration="1525000" />
-      <workItem from="1482119112479" duration="9020000" />
+      <workItem from="1482119112479" duration="14656000" />
     </task>
     <task id="LOCAL-00001" summary="initialize repository; add README">
       <created>1477873156144</created>
@@ -1196,11 +1198,18 @@
       <option name="project" value="LOCAL" />
       <updated>1482186164420</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="continue roughing out MODS">
+      <created>1482194907121</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1482194907121</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="36498000" />
+    <option name="totallyTimeSpent" value="42134000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1553" height="879" extended-state="0" />
@@ -1275,7 +1284,8 @@
     <MESSAGE value="update main xq with some more variables and paths" />
     <MESSAGE value="update testing in main xq; add uris catalog xml document" />
     <MESSAGE value="add roughed in MODS file output" />
-    <option name="LAST_COMMIT_MESSAGE" value="add roughed in MODS file output" />
+    <MESSAGE value="continue roughing out MODS" />
+    <option name="LAST_COMMIT_MESSAGE" value="continue roughing out MODS" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1643,8 +1653,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/bepress-to-mods.xq">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="107" column="79" lean-forward="false" selection-start-line="107" selection-start-column="79" selection-end-line="107" selection-end-column="79" />
+        <state relative-caret-position="79">
+          <caret line="119" column="32" lean-forward="false" selection-start-line="119" selection-start-column="32" selection-end-line="119" selection-end-column="32" />
           <folding>
             <element signature="e#261#315#0" expanded="true" />
           </folding>

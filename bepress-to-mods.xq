@@ -67,6 +67,8 @@ let $suppl-archive-name := $doc-content/supplemental-files/file/archive-name/tex
 let $suppl-mimetype := $doc-content/supplemental-files/file/mimetype/text()
 let $suppl-desc := $doc-content/supplemental-files/file/description/text()
 
+  (: dates :)
+let $c-date := format-dateTime(current-dateTime(), '[Y]-[M,2]-[D,2]T[H]:[m]:[s]Z')
 
 
 (: theses/dissertations-specific :)
@@ -76,17 +78,17 @@ let $suppl-desc := $doc-content/supplemental-files/file/description/text()
 
 return file:write(fn:concat($doc-path, 'MODS.xml'),
   <mods xmlns="" version="" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
-    <identifer type="local"></identifer>
+    <identifer type="local">{$sub-path}</identifer>
     <name>
-      <namePart type="family"></namePart>
-      <namePart type="given"></namePart>
-      {if ($author-name-s) then <namePart type="termsOfAddress"></namePart> else ()}
+      <namePart type="family">{$author-name-l}</namePart>
+      <namePart type="given">{$author-name-g}</namePart>
+      {if ($author-name-s) then <namePart type="termsOfAddress">{$author-name-s}</namePart> else ()}
       <role>
         <roleTerm type="text" authority="marcrelator" valueURI="http://id.loc.gov/vocabulary/relators/aut">Author</roleTerm>
       </role>
     </name>
     <name>
-      <displayForm></displayForm>
+      <displayForm>{$advisor}</displayForm>
       <role>
         <roleTerm type="text" authority="marcrelator" valueURI="http://id.loc.gov/vocabulary/relators/ths">Thesis advisor</roleTerm>
       </role>
@@ -98,20 +100,25 @@ return file:write(fn:concat($doc-path, 'MODS.xml'),
                                         </role>
                                       </name>}
     <titleInfo>
-      <title></title>
+      <title>{$title}</title>
     </titleInfo>
-    <abstract></abstract>
+    <abstract>{$abstract}</abstract>
 
     <originInfo>
-      <dateIssued keyDate="yes"></dateIssued>
+      <dateIssued keyDate="yes">{$pub-date}</dateIssued>
     </originInfo>
     {if (some-thing-utk_grad_whatever) then (make_the_extension_element) else ()}
     <relatedItem type="series">
       <titleInfo lang="eng">
-        <title>{$title}</title>
+        <title>{$pub-title}</title>
       </titleInfo>
     </relatedItem>
-    <recordInfo></recordInfo>
+    <recordInfo>
+      <recordCreationDate encoding="w3cdtf">{$sub-date}</recordCreationDate>
+      <recordContentSource>University of Tennessee, Knoxville Libraries</recordContentSource>
+      <recordOrigin>Converted from bepress XML to MODS in general compliance to the MODS Guidelines (Version 3.5).</recordOrigin>
+      <recordChangeDate>{$c-date}</recordChangeDate>
+    </recordInfo>
     {if (some-thing-utk_grad_whatever) then (make_the_genre_stuff) else ()}
   </mods>
 ) 
