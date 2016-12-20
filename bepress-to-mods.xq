@@ -91,7 +91,12 @@ return file:write(fn:concat($doc-path, 'MODS.xml'),
         <roleTerm type="text" authority="marcrelator" valueURI="http://id.loc.gov/vocabulary/relators/ths">Thesis advisor</roleTerm>
       </role>
     </name>
-    {for $n in $committee-mem return <name></name>}
+    {for $n in $committee-mem return  <name>
+                                        <displayForm>{$n}</displayForm>
+                                        <role>
+                                          <roleTerm authority="marcrelator">Committee member</roleTerm>
+                                        </role>
+                                      </name>}
     <titleInfo>
       <title></title>
     </titleInfo>
@@ -100,9 +105,10 @@ return file:write(fn:concat($doc-path, 'MODS.xml'),
     <originInfo>
       <dateIssued keyDate="yes"></dateIssued>
     </originInfo>
+    {if (some-thing-utk_grad_whatever) then (make_the_extension_element) else ()}
     <relatedItem type="series">
       <titleInfo lang="eng">
-        <title></title>
+        <title>{$title}</title>
       </titleInfo>
     </relatedItem>
     <recordInfo></recordInfo>
