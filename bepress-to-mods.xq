@@ -97,7 +97,9 @@ return file:write(concat($doc-path, 'MODS.xml'),
       <dateIssued keyDate="yes">{$pub-date}</dateIssued>
     </originInfo>
     {if (some-thing-utk_grad_whatever) then (make_the_extension_element) else ()}
+    <note displayLabel="Keywords submitted by author">{$keywords}</note>
     <note displayLabel="Submitted Comment">{$comments}</note>
+    {if ($embargo) then (do_some_stuff) else ()}
     <relatedItem type="series">
       <titleInfo lang="eng">
         <title>{$pub-title}</title>
