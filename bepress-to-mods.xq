@@ -71,7 +71,9 @@ return file:write(concat($doc-path, 'MODS.xml'),
     <name>
       <namePart type="family">{$author-name-l}</namePart>
       <namePart type="given">{$author-name-g}</namePart>
-      {if ($author-name-s) then <namePart type="termsOfAddress">{$author-name-s}</namePart> else ()}
+      {if ($author-name-s)
+        then <namePart type="termsOfAddress">{$author-name-s}</namePart>
+        else ()}
       <role>
         <roleTerm type="text" authority="marcrelator" valueURI="http://id.loc.gov/vocabulary/relators/aut">Author</roleTerm>
       </role>
@@ -82,12 +84,13 @@ return file:write(concat($doc-path, 'MODS.xml'),
         <roleTerm type="text" authority="marcrelator" valueURI="http://id.loc.gov/vocabulary/relators/ths">Thesis advisor</roleTerm>
       </role>
     </name>
-    {for $n in $committee-mem return  <name>
-                                        <displayForm>{$n}</displayForm>
-                                        <role>
-                                          <roleTerm authority="marcrelator">Committee member</roleTerm>
-                                        </role>
-                                      </name>}
+    {for $n in $committee-mem
+      return  <name>
+                <displayForm>{$n}</displayForm>
+                <role>
+                  <roleTerm authority="marcrelator">Committee member</roleTerm>
+                </role>
+              </name>}
     <titleInfo>
       <title>{$title}</title>
     </titleInfo>
@@ -96,7 +99,13 @@ return file:write(concat($doc-path, 'MODS.xml'),
     <originInfo>
       <dateIssued keyDate="yes">{$pub-date}</dateIssued>
     </originInfo>
-    {if (some-thing-utk_grad_whatever) then (make_the_extension_element) else ()}
+    {if (starts-with($sub-path, 'utk_grad'))
+      then (<extension xmlns:etd="http://www.ndltd.org/standards/etdms/1.1">
+              <etd:degree><etd:name>{$degree-name}</etd:name></etd:degree>
+              <etd:discipline>{$dept-name}</etd:discipline>
+              <etd:grantor>Some Kind of Programmatic Value or Should We Be Doing Something Different?</etd:grantor>
+            </extension>)
+      else ()}
     <note displayLabel="Keywords submitted by author">{$keywords}</note>
     <note displayLabel="Submitted Comment">{$comments}</note>
     {if ($embargo) then (do_some_stuff) else ()}
