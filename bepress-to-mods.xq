@@ -94,6 +94,10 @@ return file:write(concat($doc-path, 'MODS.xml'),
     <titleInfo>
       <title>{$title}</title>
     </titleInfo>
+    {for $s in $discipline
+      return  <subject>
+                <topic>{$s}</topic>
+              </subject>}
     <abstract>{$abstract}</abstract>
 
     <originInfo>
