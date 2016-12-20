@@ -68,7 +68,7 @@ let $suppl-mimetype := $doc-content/supplemental-files/file/mimetype/text()
 let $suppl-desc := $doc-content/supplemental-files/file/description/text()
 
   (: dates :)
-let $c-date := format-dateTime(current-dateTime(), '[Y]-[M,2]-[D,2]T[H]:[m]:[s]Z')
+let $c-date := format-dateTime(current-dateTime(), '[Y]-[M,2]-[D,2]T[H]:[m]:[s][Z]')
 
 
 (: theses/dissertations-specific :)
@@ -108,6 +108,7 @@ return file:write(fn:concat($doc-path, 'MODS.xml'),
       <dateIssued keyDate="yes">{$pub-date}</dateIssued>
     </originInfo>
     {if (some-thing-utk_grad_whatever) then (make_the_extension_element) else ()}
+    <note displayLabel="Submitted Comment">{$comments}</note>
     <relatedItem type="series">
       <titleInfo lang="eng">
         <title>{$pub-title}</title>
