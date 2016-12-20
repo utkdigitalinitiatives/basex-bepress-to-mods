@@ -39,3 +39,23 @@ return(
   </mods>
 )
 :)
+
+(: file:write(fn:concat($doc-db-path, 'MODS.xml'),
+  <mods xmlns="http://www.loc.gov/mods/v3" version="3.5" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
+    <!-- build us a mods document here -->
+  </mods>
+  (: example output for testing :)
+  <test>
+    <path>{$doc-path}</path>
+    <thing>is true? see: {$test-doc}</thing>
+    <!--<db>{$doc-db-path}</db>-->
+    <files>
+      <!--  {for $f in file:list($doc-db-path) return <file>{$f}</file>} -->
+      <!--<bad>{db:list('bepress-small-sample', $doc-db-path)}</bad>-->
+      <!--<test>{for $i in db:list('bepress-small-sample', $doc-db-path) return <thing>{(fn:substring-after($i, '/'))}</thing>}</test>-->
+      <!-- <second>{for $i in file:list(substring-before(db:list('bepress-small-sample', $doc-db-path), 'metadata.xml')) return <nd2>{$i}</nd2>}</second> -->
+    </files>
+    {for $c in $committee-mem return <com>{$c}</com>}
+  </test>
+
+:)
