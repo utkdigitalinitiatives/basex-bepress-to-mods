@@ -55,6 +55,9 @@ let $keywords := $doc-content/keywords//keyword/text()
 
 (: supplemental files :)
 let $file-list := file:list($doc-path)
+let $suppl-files := for $f in $file-list
+                    let $s-f := replace($f, '^\d{1,}-', '')
+                    return $s-f
 let $suppl-archive-name := $doc-content/supplemental-files/file/archive-name/text()
 let $suppl-mimetype := $doc-content/supplemental-files/file/mimetype/text()
 let $suppl-desc := $doc-content/supplemental-files/file/description/text()
@@ -137,6 +140,7 @@ return file:write(concat($doc-path, 'MODS.xml'),
 
     <testFILE_LIST>{$file-list}</testFILE_LIST>
     <testSUPPL_LIST>{$suppl-archive-name}</testSUPPL_LIST>
+    <testS-F>{$suppl-files}</testS-F>
 
     {for $f in (file:list($doc-path))
       let $f-less := replace($f, '^\d{1,}-', '')
