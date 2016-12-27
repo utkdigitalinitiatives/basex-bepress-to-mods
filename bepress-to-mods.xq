@@ -54,6 +54,7 @@ let $abstract := $doc-content/abstract/text()
 let $keywords := $doc-content/keywords//keyword/text()
 
 (: supplemental files :)
+let $excludes := ('fulltext.pdf', 'metadata.xml')
 let $file-list := file:list($doc-path)
 let $suppl-archive-name := $doc-content/supplemental-files/file/archive-name/text()
 let $suppl-mimetype := $doc-content/supplemental-files/file/mimetype/text()
