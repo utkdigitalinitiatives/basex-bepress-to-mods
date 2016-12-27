@@ -124,7 +124,9 @@ return file:write(concat($doc-path, 'MODS.xml'),
 
     <note displayLabel="Keywords submitted by author">{string-join( ($keywords), ', ')}</note>
 
-    <note displayLabel="Submitted Comment">{$comments}</note>
+    {if ($comments)
+      then <note displayLabel="Submitted Comment">{$comments}</note>
+      else ()}
 
     {if ($embargo >= xs:date(substring-before($c-date, 'T')))
       then (<accesssCondition type="restriction on access">Restricted: cannot be viewed until {$embargo}</accesssCondition>)
@@ -136,25 +138,31 @@ return file:write(concat($doc-path, 'MODS.xml'),
       </titleInfo>
     </relatedItem>
 
-    <testFILE_LIST>{$file-list}</testFILE_LIST>
-    <testSUPPL_LIST>{$suppl-archive-name}</testSUPPL_LIST>
-
     {for $f in (file:list($doc-path))
       let $f-less := replace($f, '^\d{1,}-', '')
       where ($f-less[(not(. = ($suppl-archive-name, $excludes)))])
         or ($f-less[(. = $suppl-archive-name)])
       return
         <relatedItem type="constituent">
-          <titleInfo><title>{$f-less}</title></titleInfo>
+          <titleInfo><title>{$f-less}</title><name>{$f}</name>
+            <test>{if ($f-less = $suppl-archive-name) then 'matches' else 'does not match'}</test>
+          </titleInfo>
           <physicalDescription>
             <internetMediaType>
+              {concat($suppl-archive-name[. = $f-less], 'foo-bar-baz-qux')}
+              {if ($f-less = $suppl-archive-name) then 'matches' else 'does not match'}
               {if ($f-less = $suppl-archive-name)
-                then ($doc-content/supplemental-files/file/archive-name[. = $f-less]/following-sibling::mime-type/text())
-                else (fetch:content-type(fn:concat($doc-path, $f)))}
+                then (concat($doc-content/supplemental-files/file[1]/archive-name/text(), 'banana'))
+                else (concat($doc-content/title/text(), 'strawbs'))}
             </internetMediaType>
           </physicalDescription>
           {if ($suppl-desc) then (<abtract>{$suppl-desc}</abtract>) else()}
         </relatedItem>}
+
+
+    <!--{if  ($f-less = $suppl-archive-name)
+    then ($doc-content/supplemental-files/file/archive-name[. = $f-less]/following-sibling::mime-type/text())
+    else (fetch:content-type(fn:concat($doc-path, $f)))} -->
 
 
     {if (some-thing-utk_grad_whatever) then (make_the_genre_stuff) else ()}
@@ -168,3 +176,4 @@ return file:write(concat($doc-path, 'MODS.xml'),
 
   </mods>
 )
+
