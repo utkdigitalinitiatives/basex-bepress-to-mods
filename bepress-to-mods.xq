@@ -141,22 +141,19 @@ return file:write(concat($doc-path, 'MODS.xml'),
 
     {for $f in (file:list($doc-path))
       let $f-less := replace($f, '^\d{1,}-', '')
-      where (matches($f, '^\d{1,}-'))
-      order by $f
-        return  <relatedItem type="constituent">
-                  <titleInfo><title>{$f}</title></titleInfo>
-                  <physicalDescription>
-                    <internetMediaType>{$suppl-mimetype}</internetMediaType>
-                  </physicalDescription>
-                  {if ($suppl-desc) then (<abtract>{$suppl-desc}</abtract>) else()}
-                    <!--{if ($suppl-archive-name/matches(replace(., '^\d{1,}-', ''), $f-less))
-                    then (<physicalDescription>
-                        <internetMediaType>{$suppl-mimetype}</internetMediaType>
-                      </physicalDescription>)
-                    else (<physicalDescription>
-                        <internetMediaType>{fetch:content-type($doc-path || $f)}</internetMediaType>
-                      </physicalDescription>)}
-          {if ($suppl-desc) then (<abtract>{$suppl-desc}</abtract>) else()}-->
+      where ($f-less[(not(. = ($suppl-archive-name, $excludes)))])
+        or ($f-less[(. = $suppl-archive-name)])
+      return
+        <relatedItem type="constituent">
+          <titleInfo><title>{$f-less}</title></titleInfo>
+          <physicalDescription>
+            <internetMediaType>
+              {if ($f-less = $suppl-archive-name)
+                then ($doc-content/supplemental-files/file/archive-name[. = $f-less]/following-sibling::mime-type/text())
+                else (fetch:content-type(fn:concat($doc-path, $f)))}
+            </internetMediaType>
+          </physicalDescription>
+          {if ($suppl-desc) then (<abtract>{$suppl-desc}</abtract>) else()}
         </relatedItem>}
 
 
