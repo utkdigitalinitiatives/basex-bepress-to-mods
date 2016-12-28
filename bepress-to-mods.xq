@@ -57,18 +57,12 @@ let $keywords := $doc-content/keywords//keyword/text()
 let $excludes := ('fulltext.pdf', 'metadata.xml')
 let $file-list := file:list($doc-path)
 let $suppl-archive-name := $doc-content/supplemental-files/file/archive-name/text()
-let $suppl-mimetype := $doc-content/supplemental-files/file/mimetype/text()
 let $suppl-desc := $doc-content/supplemental-files/file/description/text()
 
-  (: dates :)
+(: dates :)
 let $c-date := format-dateTime(current-dateTime(), '[Y]-[M,2]-[D,2]T[H]:[m]:[s][Z]')
 
-
-(: theses/dissertations-specific :)
-(: genre authority :)
-(: ?? :)
-
-
+(: return a MODS record :)
 return file:write(concat($doc-path, 'MODS.xml'),
   <mods xmlns="http://www.loc.gov/mods/v3" version="3.5" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
     <identifer type="local">{$sub-path}</identifer>
@@ -167,6 +161,9 @@ return file:write(concat($doc-path, 'MODS.xml'),
       <recordContentSource>University of Tennessee, Knoxville Libraries</recordContentSource>
       <recordOrigin>Converted from bepress XML to MODS in general compliance to the MODS Guidelines (Version 3.5).</recordOrigin>
       <recordChangeDate encoding="w3cdtf">{$c-date}</recordChangeDate>
+      {if ($withdrawn-status)
+        then <recordChangeDate keyDate="yes">{$withdrawn-status}</recordChangeDate>
+        else ()}
     </recordInfo>
 
   </mods>
