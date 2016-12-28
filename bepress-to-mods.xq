@@ -22,7 +22,6 @@ declare option output:indent "yes";
 (: initial FLOWR :)
 for $doc in doc('sample-data-uris.xml')//@href/doc(.)
 let $doc-path := replace(document-uri($doc), 'metadata.xml', '')
-(:let $doc-db-path := replace(db:path($doc), 'metadata.xml', ''):)
 let $doc-content := $doc/documents/document
 let $title := $doc-content/title/text()
 let $pub-date := substring-before($doc-content/publication-date/text(), 'T')
@@ -39,26 +38,22 @@ let $author-name-g := if ($doc-content/authors/author/mname)
 let $author-name-s := $doc-content/authors/author/suffix/text()
 let $advisor := $doc-content/fields/field[@name='advisor1']/value/text()
 let $committee-mem := $doc-content/fields/field[@name='advisor2']/value/text()
-
+(: degree info :)
 let $degree-name := $doc-content/fields/field[@name='degree_name']/value/text()
 let $dept-name := $doc-content/fields/field[@name='department']/value/text()
 let $embargo := if ($doc-content/fields/field[@name='embargo_date']/value/text())
                 then (xs:date(substring-before($doc-content/fields/field[@name='embargo_date']/value/text(), 'T')))
                 else (xs:date('2011-12-31'))
-
 let $src_ftxt_url := $doc-content/fields/field[@name='source_fulltext_url']/value/text()
-
 let $comments := $doc-content/fields/field[@name='comments']/value/text()
 let $discipline := $doc-content/disciplines/discipline/text()
 let $abstract := $doc-content/abstract/text()
 let $keywords := $doc-content/keywords//keyword/text()
-
 (: supplemental files :)
 let $excludes := ('fulltext.pdf', 'metadata.xml')
 let $file-list := file:list($doc-path)
 let $suppl-archive-name := $doc-content/supplemental-files/file/archive-name/text()
 let $suppl-desc := $doc-content/supplemental-files/file/description/text()
-
 (: dates :)
 let $c-date := format-dateTime(current-dateTime(), '[Y]-[M,2]-[D,2]T[H]:[m]:[s][Z]')
 
@@ -86,21 +81,23 @@ return file:write(concat($doc-path, 'MODS.xml'),
     </name>
 
     {for $n in $committee-mem
-      return  <name>
-                <displayForm>{$n}</displayForm>
-                <role>
-                  <roleTerm authority="marcrelator">Committee member</roleTerm>
-                </role>
-              </name>}
+      return
+        <name>
+          <displayForm>{$n}</displayForm>
+          <role>
+            <roleTerm authority="marcrelator">Committee member</roleTerm>
+          </role>
+        </name>}
 
     <titleInfo>
       <title>{$title}</title>
     </titleInfo>
 
     {for $s in $discipline
-      return  <subject>
-                <topic>{$s}</topic>
-              </subject>}
+      return
+        <subject>
+          <topic>{$s}</topic>
+        </subject>}
 
     <abstract>{$abstract}</abstract>
 
