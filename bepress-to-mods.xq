@@ -119,7 +119,8 @@ return file:write(concat($doc-path, 'MODS.xml'),
               <etd:degree><etd:name>{$degree-name}</etd:name></etd:degree>
               <etd:discipline>{$dept-name}</etd:discipline>
               <etd:grantor>Some Kind of Programmatic Value or Should We Be Doing Something Different?</etd:grantor>
-            </extension>)
+            </extension>,
+            <genre authority="lcgft" valueURI="http://id.loc.gov/authorities/genreForms/gf2014026039">Academic theses</genre>)
       else ()}
 
     <note displayLabel="Keywords submitted by author">{string-join( ($keywords), ', ')}</note>
@@ -160,8 +161,6 @@ return file:write(concat($doc-path, 'MODS.xml'),
           </physicalDescription>
           {if ($suppl-desc) then (<abtract>{$suppl-desc}</abtract>) else()}
         </relatedItem>}
-
-    {if (some-thing-utk_grad_whatever) then (make_the_genre_stuff) else ()}
 
     <recordInfo>
       <recordCreationDate encoding="w3cdtf">{$sub-date}</recordCreationDate>
