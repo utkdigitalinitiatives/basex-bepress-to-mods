@@ -20,7 +20,7 @@ declare option output:encoding "UTF-8";
 declare option output:indent "yes";
 
 (: initial FLOWR :)
-for $doc in doc('/usr/home/bridger/bin/basex/repo/basex-bepress-to-mods/sample-data-uris.xml')//@href/doc(.)
+for $doc in doc('sample-data-uris.xml')//@href/doc(.)
 let $doc-path := replace(document-uri($doc), 'metadata.xml', '')
 (:let $doc-db-path := replace(db:path($doc), 'metadata.xml', ''):)
 let $doc-content := $doc/documents/document
@@ -138,22 +138,24 @@ return file:write(concat($doc-path, 'MODS.xml'),
       </titleInfo>
     </relatedItem>
 
-    {for $f in (file:list($doc-path))
+    {for $f in ($file-list)
       let $f-less := replace($f, '^\d{1,}-', '')
       where ($f-less[(not(. = ($suppl-archive-name, $excludes)))])
         or ($f-less[(. = $suppl-archive-name)])
       return
         <relatedItem type="constituent">
-          <titleInfo><title>{$f-less}</title><name>{$f}</name>
-            <test>{if ($f-less = $suppl-archive-name) then 'matches' else 'does not match'}</test>
-          </titleInfo>
+          <titleInfo><title>{$f-less}</title></titleInfo>
           <physicalDescription>
             <internetMediaType>
-              {concat($suppl-archive-name[. = $f-less], 'foo-bar-baz-qux')}
-              {if ($f-less = $suppl-archive-name) then 'matches' else 'does not match'}
               {if ($f-less = $suppl-archive-name)
-                then (concat($doc-content/supplemental-files/file[1]/archive-name/text(), 'banana'))
-                else (concat($doc-content/title/text(), 'strawbs'))}
+                (: then() and else() are not working correctly; can't seem to access the darn XPaths below.
+                    can access global variables (that use those paths) without trouble ( like $pub-date ) but
+                    not an XPath. doesn't work with surrounding () either.
+                :)
+                (:then $doc-content/supplemental-files/file/archive-name[. = $f-less]/following-sibling::mime-type/text():)
+                (: uuuhhhhhggggggghhhhhh why are namespaces required here of all places!?!?!?!?!?! :(((( :)
+                then ($doc-content/*:supplemental-files/*:file/*:archive-name[. = $f-less]/following-sibling::*:mime-type/text())
+                else (fetch:content-type(concat($doc-path, $f)))}
             </internetMediaType>
           </physicalDescription>
           {if ($suppl-desc) then (<abtract>{$suppl-desc}</abtract>) else()}
