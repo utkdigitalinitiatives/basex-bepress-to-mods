@@ -161,12 +161,6 @@ return file:write(concat($doc-path, 'MODS.xml'),
           {if ($suppl-desc) then (<abtract>{$suppl-desc}</abtract>) else()}
         </relatedItem>}
 
-
-    <!--{if  ($f-less = $suppl-archive-name)
-    then ($doc-content/supplemental-files/file/archive-name[. = $f-less]/following-sibling::mime-type/text())
-    else (fetch:content-type(fn:concat($doc-path, $f)))} -->
-
-
     {if (some-thing-utk_grad_whatever) then (make_the_genre_stuff) else ()}
 
     <recordInfo>
