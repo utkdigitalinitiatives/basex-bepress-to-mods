@@ -140,12 +140,6 @@ return file:write(concat($doc-path, 'MODS.xml'),
           <physicalDescription>
             <internetMediaType>
               {if ($f-less = $suppl-archive-name)
-                (: then() and else() are not working correctly; can't seem to access the darn XPaths below.
-                    can access global variables (that use those paths) without trouble ( like $pub-date ) but
-                    not an XPath. doesn't work with surrounding () either.
-                :)
-                (:then $doc-content/supplemental-files/file/archive-name[. = $f-less]/following-sibling::mime-type/text():)
-                (: uuuhhhhhggggggghhhhhh why are namespaces required here of all places!?!?!?!?!?! :(((( :)
                 then ($doc-content/*:supplemental-files/*:file/*:archive-name[. = $f-less]/following-sibling::*:mime-type/text())
                 else (fetch:content-type(concat($doc-path, $f)))}
             </internetMediaType>
