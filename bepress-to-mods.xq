@@ -110,7 +110,11 @@ return file:write(concat($doc-path, 'MODS.xml'),
     {if (starts-with($sub-path, 'utk_grad'))
       then (<extension xmlns:etd="http://www.ndltd.org/standards/etdms/1.1">
               <etd:degree><etd:name>{$degree-name}</etd:name></etd:degree>
-              <etd:discipline>{$dept-name}</etd:discipline>
+              <etd:discipline>
+                {if ($dept-name)
+                  then $dept-name
+                  else $discipline}
+              </etd:discipline>
               <etd:grantor>University of Tennessee</etd:grantor>
             </extension>,
             <genre authority="lcgft" valueURI="http://id.loc.gov/authorities/genreForms/gf2014026039">Academic theses</genre>)
