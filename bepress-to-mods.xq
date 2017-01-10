@@ -56,24 +56,13 @@ return file:write(concat($doc-path, 'MODS.xml'),
   <mods xmlns="http://www.loc.gov/mods/v3" version="3.5" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
     <identifer type="local">{$sub-path}</identifer>
 
-    <!--<name>
-      <namePart type="family">{$author-name-l}</namePart>
-      <namePart type="given">{$author-name-g}</namePart>
-      {if ($author-name-s)
-        then <namePart type="termsOfAddress">{$author-name-s}</namePart>
-        else ()}
-      <role>
-        <roleTerm type="text" authority="marcrelator" valueURI="http://id.loc.gov/vocabulary/relators/aut">Author</roleTerm>
-      </role>
-    </name>-->
-
-    {for $n in $doc-content/authors/author
-      let $author-name-l := $doc-content/authors/author/lname/text()
+    {for $n in $doc-content/*:authors/*:author
+      let $author-name-l := $n/*:lname/text()
       (: multiple authors? :)
-      let $author-name-g := if ($doc-content/authors/author/mname)
-                            then ($doc-content/authors/author/fname/text() || ' ' || $doc-content/authors/author/mname/text())
-                            else ($doc-content/authors/author/fname/text())
-      let $author-name-s := $doc-content/authors/author/suffix/text()
+      let $author-name-g := if ($n/*:mname)
+                            then ($n/*:fname/text() || ' ' || $n/*:mname/text())
+                            else ($n/*:fname/text())
+      let $author-name-s := $n/*:suffix/text()
       return
         <name>
           <namePart type="family">{$author-name-l}</namePart>
