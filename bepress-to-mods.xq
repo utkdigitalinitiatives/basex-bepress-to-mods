@@ -111,7 +111,7 @@ return file:write(concat($doc-path, 'MODS.xml'),
       then (<extension xmlns:etd="http://www.ndltd.org/standards/etdms/1.1">
               <etd:degree><etd:name>{$degree-name}</etd:name></etd:degree>
               <etd:discipline>{$dept-name}</etd:discipline>
-              <etd:grantor>Some Kind of Programmatic Value or Should We Be Doing Something Different?</etd:grantor>
+              <etd:grantor>University of Tennessee</etd:grantor>
             </extension>,
             <genre authority="lcgft" valueURI="http://id.loc.gov/authorities/genreForms/gf2014026039">Academic theses</genre>)
       else ()}
