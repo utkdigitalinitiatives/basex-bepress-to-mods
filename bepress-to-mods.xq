@@ -73,6 +73,19 @@ return file:write(concat($doc-path, 'MODS.xml'),
       </role>
     </name>
 
+    {for $n in $doc-content/authors/author
+      return
+        <name>
+          <namePart type="family"></namePart>
+          <namePart type="given"></namePart>
+          {if (foo)
+            then <namePart type="termsOfAddress">{foo}</namePart>
+            else ()}
+          <role>
+            <roleTerm type="text" authority="marcrelator" valueURI="http://id.loc.gov/vocabulary/relators/aut">Author</roleTerm>
+          </role>
+        </name>}
+
     <name>
       <displayForm>{$advisor}</displayForm>
       <role>
