@@ -24,7 +24,7 @@ for $doc in doc('sample-data-uris.xml')//@href/doc(.)
 let $doc-path := replace(document-uri($doc), 'metadata.xml', '')
 let $doc-content := $doc/documents/document
 let $title := $doc-content/title/text()
-let $pub-date := substring-before($doc-content/publication-date/text(), 'T')
+let $pub-date := functx:substring-before-match($doc-content/publication-date/text(), '-[0-9]{2}T')
 let $pub-title := $doc-content/publication-title/text()
 let $sub-date := $doc-content/submission-date/text()
 let $withdrawn-status := $doc-content/withdrawn
@@ -105,7 +105,7 @@ return file:write(concat($doc-path, 'MODS.xml'),
 
     <originInfo>
       <dateCreated encoding="w3cdtf">{$sub-date}</dateCreated>
-      <dateIssued keyDate="yes">{$pub-date}</dateIssued>
+      <dateIssued keyDate="yes" encoding="edtf">{$pub-date}</dateIssued>
     </originInfo>
 
     {if (starts-with($sub-path, 'utk_grad'))
