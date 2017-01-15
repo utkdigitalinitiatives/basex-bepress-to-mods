@@ -103,6 +103,8 @@ return file:write(concat($doc-path, 'MODS.xml'),
 
     <abstract>{$abstract}</abstract>
 
+    <typeOfResource>text</typeOfResource>
+
     <originInfo>
       <dateCreated encoding="w3cdtf">{$sub-date}</dateCreated>
       <dateIssued keyDate="yes" encoding="edtf">{$pub-date}</dateIssued>
