@@ -153,15 +153,18 @@ return file:write(concat($doc-path, 'MODS.xml'),
           {if ($suppl-desc) then (<abtract>{$suppl-desc}</abtract>) else()}
         </relatedItem>}
 
-    <recordInfo>
+    <recordInfo displayLabel="Submission">
       <recordCreationDate encoding="w3cdtf">{$sub-date}</recordCreationDate>
       <recordContentSource>University of Tennessee, Knoxville Libraries</recordContentSource>
       <recordOrigin>Converted from bepress XML to MODS in general compliance to the MODS Guidelines (Version 3.5).</recordOrigin>
       <recordChangeDate encoding="w3cdtf">{$c-date}</recordChangeDate>
-      {if ($withdrawn-status)
-        then <recordChangeDate keyDate="yes">{$withdrawn-status}</recordChangeDate>
-        else ()}
     </recordInfo>
+
+    {if ($withdrawn-status)
+      then (<recordInfo displayLabel="Withdrawn">
+            <recordChangeDate keyDate="yes">{$withdrawn-status}</recordChangeDate>
+           </recordInfo>)
+      else ()}
 
   </mods>
 )
