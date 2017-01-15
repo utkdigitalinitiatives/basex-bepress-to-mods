@@ -132,7 +132,7 @@ return file:write(concat($doc-path, 'MODS.xml'),
 
     <relatedItem type="series">
       <titleInfo lang="eng">
-        <title>{$pub-title}</title>
+        <title>Graduate Theses and Dissertations</title>
       </titleInfo>
     </relatedItem>
 
