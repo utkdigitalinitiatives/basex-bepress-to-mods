@@ -104,6 +104,7 @@ return file:write(concat($doc-path, 'MODS.xml'),
     <abstract>{$abstract}</abstract>
 
     <originInfo>
+      <dateCreated encoding="w3cdtf">{$sub-date}</dateCreated>
       <dateIssued keyDate="yes">{$pub-date}</dateIssued>
     </originInfo>
 
