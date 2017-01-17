@@ -54,7 +54,7 @@ let $c-date := format-dateTime(current-dateTime(), '[Y]-[M,2]-[D,2]T[H]:[m]:[s][
 (: return a MODS record :)
 return file:write(concat($doc-path, 'MODS.xml'),
   <mods xmlns="http://www.loc.gov/mods/v3" version="3.5" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
-    <identifer type="local">{$sub-path}</identifer>
+    <identifier type="local">{$sub-path}</identifier>
 
     {for $n in $doc-content/*:authors/*:author
       let $author-name-l := $n/*:lname/text()
