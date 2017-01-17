@@ -27,7 +27,7 @@ let $title := $doc-content/title/text()
 let $pub-date := functx:substring-before-match($doc-content/publication-date/text(), '-[0-9]{2}T')
 let $pub-title := $doc-content/publication-title/text()
 let $sub-date := $doc-content/submission-date/text()
-let $withdrawn-status := $doc-content/withdrawn
+let $withdrawn-status := $doc-content/withdrawn/text()
 let $sub-path := $doc-content/submission-path/text()
 (: names :)
 let $advisor := $doc-content/fields/field[@name='advisor1']/value/text()
@@ -130,7 +130,7 @@ return file:write(concat($doc-path, 'MODS.xml'),
       else ()}
 
     {if ($embargo >= xs:date(substring-before($c-date, 'T')))
-      then (<accesssCondition type="restriction on access">Restricted: cannot be viewed until {$embargo}</accesssCondition>)
+      then (<accessCondition type="restriction on access">Restricted: cannot be viewed until {$embargo}</accessCondition>)
       else ()}
 
     <relatedItem type="series">
@@ -153,7 +153,7 @@ return file:write(concat($doc-path, 'MODS.xml'),
                 else (fetch:content-type(concat($doc-path, $f)))}
             </internetMediaType>
           </physicalDescription>
-          {if ($suppl-desc) then (<abtract>{$suppl-desc}</abtract>) else()}
+          {if ($suppl-desc) then (<abstract>{$suppl-desc}</abstract>) else()}
         </relatedItem>}
 
     <recordInfo displayLabel="Submission">
