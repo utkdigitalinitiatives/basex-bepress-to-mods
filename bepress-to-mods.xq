@@ -139,6 +139,8 @@ return file:write(concat($doc-path, 'MODS.xml'),
       let $f-less := replace($f, '^\d{1,}-', '')
       where ($f-less[(not(. = ($suppl-archive-name, $excludes)))])
         or ($f-less[(. = $suppl-archive-name)])
+      group by $f-less
+      count $count
       return
         <relatedItem type="constituent">
           <titleInfo><title>{$f-less}</title></titleInfo>
@@ -150,6 +152,7 @@ return file:write(concat($doc-path, 'MODS.xml'),
             </internetMediaType>
           </physicalDescription>
           {if ($suppl-desc) then (<abstract>{$suppl-desc}</abstract>) else()}
+          <note displayLabel="supplemental_file">{'SUPPL_' || $count}</note>
         </relatedItem>}
 
     <recordInfo displayLabel="Submission">
