@@ -47,7 +47,6 @@ let $keywords := $doc-content/keywords//keyword/text()
 let $excludes := ('fulltext.pdf', 'metadata.xml')
 let $file-list := file:list($doc-path)
 let $suppl-archive-name := $doc-content/supplemental-files/file/archive-name/text()
-let $suppl-desc := $doc-content/supplemental-files/file/description/text()
 (: dates :)
 let $c-date := format-dateTime(current-dateTime(), '[Y]-[M,2]-[D,2]T[H]:[m]:[s][Z]')
 
