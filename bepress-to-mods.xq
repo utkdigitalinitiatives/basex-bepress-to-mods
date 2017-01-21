@@ -136,19 +136,18 @@ return file:write(concat($doc-path, 'MODS.xml'),
     </relatedItem>
 
     {for $f in ($file-list)
-      let $f-less := replace($f, '^\d{1,}-', '')
-      where ($f-less[(not(. = ($suppl-archive-name, $excludes)))])
-        or ($f-less[(. = $suppl-archive-name)])
-      group by $f-less
+      where (replace($f, '^\d{1,}-', '')[(not(. = ($suppl-archive-name, $excludes)))])
+        or (replace($f, '^\d{1,}-', '')[(. = $suppl-archive-name)])
+      group by $f
       count $count
       return
         <relatedItem type="constituent">
-          <titleInfo><title>{$f-less}</title></titleInfo>
+          <titleInfo><title>{replace($f, '^\d{1,}-', '')}</title></titleInfo>
           <physicalDescription>
             <internetMediaType>
-              {if ($f-less = $suppl-archive-name)
-                then ($doc-content/*:supplemental-files/*:file/*:archive-name[. = $f-less]/following-sibling::*:mime-type/text())
-                else (fetch:content-type(concat($doc-path, $f)))}
+              {if (replace($f, '^\d{1,}-', '') = $suppl-archive-name)
+              then ($doc-content/*:supplemental-files/*:file/*:archive-name[. = replace($f, '^\d{1,}-', '')]/following-sibling::*:mime-type/text())
+              else (fetch:content-type(concat($doc-path, $f)))}
             </internetMediaType>
           </physicalDescription>
           {if ($suppl-desc) then (<abstract>{$suppl-desc}</abstract>) else()}
