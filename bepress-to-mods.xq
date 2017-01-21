@@ -150,7 +150,9 @@ return file:write(concat($doc-path, 'MODS.xml'),
               else (fetch:content-type(concat($doc-path, $f)))}
             </internetMediaType>
           </physicalDescription>
-          {if ($suppl-desc) then (<abstract>{$suppl-desc}</abstract>) else()}
+          {if ($doc-content/*:supplemental-files/*:file/*:archive-name[. = replace($f, '^\d{1,}-', '')]/following-sibling::*:description)
+            then (<abstract>{$doc-content/*:supplemental-files/*:file/*:archive-name[. = replace($f, '^\d{1,}-', '')]/following-sibling::*:description/text()}</abstract>)
+            else()}
           <note displayLabel="supplemental_file">{'SUPPL_' || $count}</note>
         </relatedItem>}
 
