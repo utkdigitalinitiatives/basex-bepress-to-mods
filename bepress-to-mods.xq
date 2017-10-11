@@ -70,7 +70,7 @@ return file:write(concat($doc-path, 'MODS.xml'),
             then <namePart type="termsOfAddress">{$author-name-s}</namePart>
             else ()}
           <role>
-            <roleTerm type="text" authority="marcrelator" valueURI="http://id.loc.gov/vocabulary/relators/aut">Author</roleTerm>
+            <roleTerm authority="marcrelator" valueURI="http://id.loc.gov/vocabulary/relators/aut">Author</roleTerm>
           </role>
         </name>}
 
@@ -86,7 +86,7 @@ return file:write(concat($doc-path, 'MODS.xml'),
         <name>
           <displayForm>{$n}</displayForm>
           <role>
-            <roleTerm authority="marcrelator">Committee member</roleTerm>
+            <roleTerm authority="local">Committee member</roleTerm>
           </role>
         </name>}
 
