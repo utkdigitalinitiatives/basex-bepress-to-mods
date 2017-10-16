@@ -115,21 +115,14 @@ return file:write(concat($doc-path, 'MODS.xml'),
               <etd:discipline>{$dept-name}</etd:discipline>
               <etd:grantor>University of Tennessee</etd:grantor>
             </extension>,
-            <genre authority="lcgft" valueURI="http://id.loc.gov/authorities/genreForms/gf2014026039">Academic theses</genre>,
-            <genre authority="coar" valueURI="http://purl.og/coar/resource_type/c_bdcc">masters thesis</genre>)
+            <genre authority="lcgft" valueURI="http://id.loc.gov/authorities/genreForms/gf2014026039">Academic theses</genre>)
       else ()}
 
     {if (matches($pub-title, 'Doctoral Dissertations'))
-      then (<extension xmlns:etd="http://www.ndltd.org/standards/etdms/1.1">
-              <etd:degree><etd:name>{$degree-name}</etd:name></etd:degree>
-              <etd:discipline>{$dept-name}</etd:discipline>
-              <etd:grantor>University of Tennessee</etd:grantor>
-            </extension>,
-            <genre authority="lcgft" valueURI="...">Academic theses</genre>,
-            <genre authority="coar" valueURI="http://purl.org/coar/resource_type/c_db06">doctoral thesis</genre>)
-      else ()}
-
-    <!-- @TODO: simplify the above to one if-then-else with nested test(s) for genre handling -->
+      then (<genre authority="coar" valueURI="http://purl.org/coar/resource_type/c_db06">doctoral thesis</genre>)
+        else if (matches($pub-title, 'Masters Theses'))
+        then (<genre authority="coar" valueURI="http://purl.org/coar/resource_type/c_bdcc">masters thesis</genre>)
+          else ()}
 
     <note displayLabel="Keywords submitted by author">{string-join( ($keywords), ', ')}</note>
 
