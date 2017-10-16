@@ -115,7 +115,8 @@ return file:write(concat($doc-path, 'MODS.xml'),
               <etd:discipline>{$dept-name}</etd:discipline>
               <etd:grantor>University of Tennessee</etd:grantor>
             </extension>,
-            <genre authority="lcgft" valueURI="http://id.loc.gov/authorities/genreForms/gf2014026039">Academic theses</genre>)
+            <genre authority="lcgft" valueURI="http://id.loc.gov/authorities/genreForms/gf2014026039">Academic theses</genre>,
+            <genre authority="coar" valueURI="http://purl.og/coar/resource_type/c_bdcc">masters thesis</genre>)
       else ()}
 
     <note displayLabel="Keywords submitted by author">{string-join( ($keywords), ', ')}</note>
