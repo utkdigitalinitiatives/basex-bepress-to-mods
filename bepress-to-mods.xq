@@ -119,6 +119,20 @@ return file:write(concat($doc-path, 'MODS.xml'),
             <genre authority="coar" valueURI="http://purl.og/coar/resource_type/c_bdcc">masters thesis</genre>)
       else ()}
 
+    {if (matches($pub-title, 'Doctoral Dissertations'))
+      then (<extension xmlns:etd="http://www.ndltd.org/standards/etdms/1.1">
+              <etd:degree><etd:name>{$degree-name}</etd:name></etd:degree>
+              <etd:discipline>{$dept-name}</etd:discipline>
+              <etd:grantor>University of Tennessee</etd:grantor>
+            </extension>,
+            <genre authority="lcgft" valueURI="...">Academic theses</genre>,
+            <genre authority="coar" valueURI="http://purl.org/coar/resource_type/c_db06">doctoral thesis</genre>)
+      else ()}
+
+    <!-- make above more generic/simplify? if sub-path starts with utk_grad then serialize extension else ()
+         add trailing if-then-else for handling genre
+    -->
+
     <note displayLabel="Keywords submitted by author">{string-join( ($keywords), ', ')}</note>
 
     {if ($comments)
