@@ -118,6 +118,12 @@ return file:write(concat($doc-path, 'MODS.xml'),
             <genre authority="lcgft" valueURI="http://id.loc.gov/authorities/genreForms/gf2014026039">Academic theses</genre>)
       else ()}
 
+    {if (matches($pub-title, 'Doctoral Dissertations'))
+      then (<genre authority="coar" valueURI="http://purl.org/coar/resource_type/c_db06">doctoral thesis</genre>)
+        else if (matches($pub-title, 'Masters Theses'))
+        then (<genre authority="coar" valueURI="http://purl.org/coar/resource_type/c_bdcc">masters thesis</genre>)
+          else ()}
+
     <note displayLabel="Keywords submitted by author">{string-join( ($keywords), ', ')}</note>
 
     {if ($comments)
