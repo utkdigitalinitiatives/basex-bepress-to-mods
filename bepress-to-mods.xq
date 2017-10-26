@@ -130,9 +130,7 @@ return file:write(concat($doc-path, 'MODS.xml'),
       then <note displayLabel="Submitted Comment">{$comments}</note>
       else ()}
 
-    {if ($embargo >= xs:date(substring-before($c-date, 'T')))
-      then (<accessCondition type="restriction on access">Restricted: cannot be viewed until {$embargo}</accessCondition>)
-      else ()}
+    <accessCondition type="restriction on access">Restricted: cannot be viewed until {$embargo}</accessCondition>
 
     <relatedItem type="series">
       <titleInfo lang="eng">
