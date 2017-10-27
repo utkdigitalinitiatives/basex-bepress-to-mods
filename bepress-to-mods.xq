@@ -81,14 +81,17 @@ return file:write(concat($doc-path, 'MODS.xml'),
       </role>
     </name>
 
-    {for $n in $committee-mem
+    {for $possible-cms in $committee-mem
+    let $cms := tokenize($possible-cms, ',')
+    for $cm in $cms
       return
         <name>
-          <displayForm>{$n}</displayForm>
+          <displayForm>{$cm}</displayForm>
           <role>
-            <roleTerm authority="local">Committee member</roleTerm>
+            <roleTerm type="text">Committee member</roleTerm>
           </role>
         </name>}
+    
 
     <titleInfo>
       <title>{$title}</title>
