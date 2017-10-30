@@ -52,7 +52,7 @@ let $c-date := format-dateTime(current-dateTime(), '[Y]-[M,2]-[D,2]T[H]:[m]:[s][
 
 (: return a MODS record :)
 return file:write(concat($doc-path, 'MODS.xml'),
-  <mods xmlns="http://www.loc.gov/mods/v3" version="3.5" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
+  <mods xmlns="http://www.loc.gov/mods/v3" version="3.5" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:etd="http://www.ndltd.org/standards/etdms/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
     <identifier type="local">{$sub-path}</identifier>
 
     {for $n in $doc-content/*:authors/*:author
@@ -110,10 +110,12 @@ return file:write(concat($doc-path, 'MODS.xml'),
     </originInfo>
 
     {if (starts-with($sub-path, 'utk_grad'))
-      then (<extension xmlns:etd="http://www.ndltd.org/standards/etdms/1.1">
-              <etd:degree><etd:name>{$degree-name}</etd:name></etd:degree>
-              <etd:discipline>{$dept-name}</etd:discipline>
-              <etd:grantor>University of Tennessee</etd:grantor>
+      then (<extension>
+              <etd:degree>
+                <etd:name>{$degree-name}</etd:name>
+                <etd:discipline>{$dept-name}</etd:discipline>
+                <etd:grantor>University of Tennessee</etd:grantor>
+              </etd:degree>
             </extension>,
             <genre authority="lcgft" valueURI="http://id.loc.gov/authorities/genreForms/gf2014026039">Academic theses</genre>)
       else ()}
