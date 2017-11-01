@@ -158,7 +158,7 @@ return file:write(concat($doc-path, 'MODS.xml'),
           {if ($doc-content/*:supplemental-files/*:file/*:archive-name[. = replace($f, '^\d{1,}-', '')]/following-sibling::*:description)
             then (<mods:abstract>{$doc-content/*:supplemental-files/*:file/*:archive-name[. = replace($f, '^\d{1,}-', '')]/following-sibling::*:description/text()}</mods:abstract>)
             else()}
-          <mods:note displayLabel="supplemental_file">{'SUPPL_' || $count}</note>
+          <mods:note displayLabel="supplemental_file">{'SUPPL_' || $count}</mods:note>
         </mods:relatedItem>}
 
     <mods:recordInfo displayLabel="Submission">
