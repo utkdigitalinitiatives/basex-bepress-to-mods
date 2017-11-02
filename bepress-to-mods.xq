@@ -52,7 +52,8 @@ let $c-date := format-dateTime(current-dateTime(), '[Y]-[M,2]-[D,2]T[H]:[m]:[s][
 
 (: return a MODS record :)
 return file:write(concat($doc-path, 'MODS.xml'),
-  <mods:mods xmlns="http://www.loc.gov/mods/v3" version="3.5" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
+
+  <mods:mods xmlns="http://www.loc.gov/mods/v3" version="3.5" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:etd="http://www.ndltd.org/standards/etdms/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
     <mods:identifier type="local">{$sub-path}</mods:identifier>
 
     {for $n in $doc-content/*:authors/*:author
@@ -81,10 +82,12 @@ return file:write(concat($doc-path, 'MODS.xml'),
       </mods:role>
     </mods:name>
 
-    {for $n in $committee-mem
+    {for $possible-cms in $committee-mem
+    let $cms := tokenize($possible-cms, ',')
+    for $cm in $cms
       return
         <mods:name>
-          <mods:displayForm>{$n}</mods:displayForm>
+          <mods:displayForm>{$cm}</mods:displayForm>
           <mods:role>
             <mods:roleTerm authority="local">Committee member</mods:roleTerm>
           </mods:role>
@@ -110,10 +113,12 @@ return file:write(concat($doc-path, 'MODS.xml'),
     </mods:originInfo>
 
     {if (starts-with($sub-path, 'utk_grad'))
-      then (<mods:extension xmlns:etd="http://www.ndltd.org/standards/etdms/1.1">
-              <etd:degree><etd:name>{$degree-name}</etd:name></etd:degree>
-              <etd:discipline>{$dept-name}</etd:discipline>
-              <etd:grantor>University of Tennessee</etd:grantor>
+      then (<mods:extension>
+              <etd:degree>
+                <etd:name>{$degree-name}</etd:name>
+                <etd:discipline>{$dept-name}</etd:discipline>
+                <etd:grantor>University of Tennessee</etd:grantor>
+              </etd:degree>
             </mods:extension>,
             <mods:genre authority="lcgft" valueURI="http://id.loc.gov/authorities/genreForms/gf2014026039">Academic theses</mods:genre>)
       else ()}
