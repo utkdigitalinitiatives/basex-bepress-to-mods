@@ -52,8 +52,9 @@ let $c-date := format-dateTime(current-dateTime(), '[Y]-[M,2]-[D,2]T[H]:[m]:[s][
 
 (: return a MODS record :)
 return file:write(concat($doc-path, 'MODS.xml'),
-  <mods xmlns="http://www.loc.gov/mods/v3" version="3.5" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:etd="http://www.ndltd.org/standards/etdms/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
-    <identifier type="local">{$sub-path}</identifier>
+
+  <mods:mods xmlns="http://www.loc.gov/mods/v3" version="3.5" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:etd="http://www.ndltd.org/standards/etdms/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
+    <mods:identifier type="local">{$sub-path}</mods:identifier>
 
     {for $n in $doc-content/*:authors/*:author
       let $author-name-l := $n/*:lname/text()
@@ -63,87 +64,86 @@ return file:write(concat($doc-path, 'MODS.xml'),
                             else ($n/*:fname/text())
       let $author-name-s := $n/*:suffix/text()
       return
-        <name>
-          <namePart type="family">{$author-name-l}</namePart>
-          <namePart type="given">{$author-name-g}</namePart>
+        <mods:name>
+          <mods:namePart type="family">{$author-name-l}</mods:namePart>
+          <mods:namePart type="given">{$author-name-g}</mods:namePart>
           {if ($author-name-s)
-            then <namePart type="termsOfAddress">{$author-name-s}</namePart>
+            then <mods:namePart type="termsOfAddress">{$author-name-s}</mods:namePart>
             else ()}
-          <role>
-            <roleTerm authority="marcrelator" valueURI="http://id.loc.gov/vocabulary/relators/aut">Author</roleTerm>
-          </role>
-        </name>}
+          <mods:role>
+            <mods:roleTerm authority="marcrelator" valueURI="http://id.loc.gov/vocabulary/relators/aut">Author</mods:roleTerm>
+          </mods:role>
+        </mods:name>}
 
-    <name>
-      <displayForm>{$advisor}</displayForm>
-      <role>
-        <roleTerm type="text" authority="marcrelator" valueURI="http://id.loc.gov/vocabulary/relators/ths">Thesis advisor</roleTerm>
-      </role>
-    </name>
+    <mods:name>
+      <mods:displayForm>{$advisor}</mods:displayForm>
+      <mods:role>
+        <mods:roleTerm type="text" authority="marcrelator" valueURI="http://id.loc.gov/vocabulary/relators/ths">Thesis advisor</mods:roleTerm>
+      </mods:role>
+    </mods:name>
 
     {for $possible-cms in $committee-mem
     let $cms := tokenize($possible-cms, ',')
     for $cm in $cms
       return
-        <name>
-          <displayForm>{$cm}</displayForm>
-          <role>
-            <roleTerm type="text">Committee member</roleTerm>
-          </role>
-        </name>}
-    
+        <mods:name>
+          <mods:displayForm>{$cm}</mods:displayForm>
+          <mods:role>
+            <mods:roleTerm authority="local">Committee member</mods:roleTerm>
+          </mods:role>
+        </mods:name>}
 
-    <titleInfo>
-      <title>{$title}</title>
-    </titleInfo>
+    <mods:titleInfo>
+      <mods:title>{$title}</mods:title>
+    </mods:titleInfo>
 
     {for $s in $discipline
       return
-        <subject>
-          <topic>{$s}</topic>
-        </subject>}
+        <mods:subject>
+          <mods:topic>{$s}</mods:topic>
+        </mods:subject>}
 
-    <abstract>{$abstract}</abstract>
+    <mods:abstract>{$abstract}</mods:abstract>
 
-    <typeOfResource>text</typeOfResource>
+    <mods:typeOfResource>text</mods:typeOfResource>
 
-    <originInfo>
-      <dateCreated encoding="w3cdtf">{$sub-date}</dateCreated>
-      <dateIssued keyDate="yes" encoding="edtf">{$pub-date}</dateIssued>
-    </originInfo>
+    <mods:originInfo>
+      <mods:dateCreated encoding="w3cdtf">{$sub-date}</mods:dateCreated>
+      <mods:dateIssued keyDate="yes" encoding="edtf">{$pub-date}</mods:dateIssued>
+    </mods:originInfo>
 
     {if (starts-with($sub-path, 'utk_grad'))
-      then (<extension>
+      then (<mods:extension>
               <etd:degree>
                 <etd:name>{$degree-name}</etd:name>
                 <etd:discipline>{$dept-name}</etd:discipline>
                 <etd:grantor>University of Tennessee</etd:grantor>
               </etd:degree>
-            </extension>,
-            <genre authority="lcgft" valueURI="http://id.loc.gov/authorities/genreForms/gf2014026039">Academic theses</genre>)
+            </mods:extension>,
+            <mods:genre authority="lcgft" valueURI="http://id.loc.gov/authorities/genreForms/gf2014026039">Academic theses</mods:genre>)
       else ()}
 
     {if (matches($pub-title, 'Doctoral Dissertations'))
-      then (<genre authority="coar" valueURI="http://purl.org/coar/resource_type/c_db06">doctoral thesis</genre>)
+      then (<mods:genre authority="coar" valueURI="http://purl.org/coar/resource_type/c_db06">doctoral thesis</mods:genre>)
         else if (matches($pub-title, 'Masters Theses'))
-        then (<genre authority="coar" valueURI="http://purl.org/coar/resource_type/c_bdcc">masters thesis</genre>)
+        then (<mods:genre authority="coar" valueURI="http://purl.org/coar/resource_type/c_bdcc">masters thesis</mods:genre>)
           else ()}
 
-    <note displayLabel="Keywords submitted by author">{string-join( ($keywords), ', ')}</note>
+    <mods:note displayLabel="Keywords submitted by author">{string-join( ($keywords), ', ')}</mods:note>
 
     {if ($comments)
-      then <note displayLabel="Submitted Comment">{$comments}</note>
+      then <mods:note displayLabel="Submitted Comment">{$comments}</mods:note>
       else ()}
 
     {if ($embargo >= xs:date(substring-before($c-date, 'T')))
-      then (<accessCondition type="restriction on access">Restricted: cannot be viewed until {$embargo}</accessCondition>)
+      then (<mods:accessCondition type="restriction on access">Restricted: cannot be viewed until {$embargo}</mods:accessCondition>)
       else ()}
 
-    <relatedItem type="series">
-      <titleInfo lang="eng">
-        <title>Graduate Theses and Dissertations</title>
-      </titleInfo>
-    </relatedItem>
+    <mods:relatedItem type="series">
+      <mods:titleInfo lang="eng">
+        <mods:title>Graduate Theses and Dissertations</mods:title>
+      </mods:titleInfo>
+    </mods:relatedItem>
 
     {for $f in ($file-list)
       where (replace($f, '^\d{1,}-', '')[(not(. = ($suppl-archive-name, $excludes)))])
@@ -151,34 +151,34 @@ return file:write(concat($doc-path, 'MODS.xml'),
       group by $f
       count $count
       return
-        <relatedItem type="constituent">
-          <titleInfo><title>{replace($f, '^\d{1,}-', '')}</title></titleInfo>
-          <physicalDescription>
-            <internetMediaType>
+        <mods:relatedItem type="constituent">
+          <mods:titleInfo><mods:title>{replace($f, '^\d{1,}-', '')}</mods:title></mods:titleInfo>
+          <mods:physicalDescription>
+            <mods:internetMediaType>
               {if (replace($f, '^\d{1,}-', '') = $suppl-archive-name)
               then ($doc-content/*:supplemental-files/*:file/*:archive-name[. = replace($f, '^\d{1,}-', '')]/following-sibling::*:mime-type/text())
               else (fetch:content-type(concat($doc-path, $f)))}
-            </internetMediaType>
-          </physicalDescription>
+            </mods:internetMediaType>
+          </mods:physicalDescription>
           {if ($doc-content/*:supplemental-files/*:file/*:archive-name[. = replace($f, '^\d{1,}-', '')]/following-sibling::*:description)
-            then (<abstract>{$doc-content/*:supplemental-files/*:file/*:archive-name[. = replace($f, '^\d{1,}-', '')]/following-sibling::*:description/text()}</abstract>)
+            then (<mods:abstract>{$doc-content/*:supplemental-files/*:file/*:archive-name[. = replace($f, '^\d{1,}-', '')]/following-sibling::*:description/text()}</mods:abstract>)
             else()}
-          <note displayLabel="supplemental_file">{'SUPPL_' || $count}</note>
-        </relatedItem>}
+          <mods:note displayLabel="supplemental_file">{'SUPPL_' || $count}</mods:note>
+        </mods:relatedItem>}
 
-    <recordInfo displayLabel="Submission">
-      <recordCreationDate encoding="w3cdtf">{$sub-date}</recordCreationDate>
-      <recordContentSource>University of Tennessee, Knoxville Libraries</recordContentSource>
-      <recordOrigin>Converted from bepress XML to MODS in general compliance to the MODS Guidelines (Version 3.5).</recordOrigin>
-      <recordChangeDate encoding="w3cdtf">{$c-date}</recordChangeDate>
-    </recordInfo>
+    <mods:recordInfo displayLabel="Submission">
+      <mods:recordCreationDate encoding="w3cdtf">{$sub-date}</mods:recordCreationDate>
+      <mods:recordContentSource>University of Tennessee, Knoxville Libraries</mods:recordContentSource>
+      <mods:recordOrigin>Converted from bepress XML to MODS in general compliance to the MODS Guidelines (Version 3.5).</mods:recordOrigin>
+      <mods:recordChangeDate encoding="w3cdtf">{$c-date}</mods:recordChangeDate>
+    </mods:recordInfo>
 
     {if ($withdrawn-status)
-      then (<recordInfo displayLabel="Withdrawn">
-            <recordChangeDate keyDate="yes">{$withdrawn-status}</recordChangeDate>
-           </recordInfo>)
+      then (<mods:recordInfo displayLabel="Withdrawn">
+            <mods:recordChangeDate keyDate="yes">{$withdrawn-status}</mods:recordChangeDate>
+           </mods:recordInfo>)
       else ()}
 
-  </mods>
+  </mods:mods>
 )
 
