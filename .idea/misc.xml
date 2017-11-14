@@ -7,6 +7,12 @@
       </MavenGeneralSettings>
     </option>
   </component>
+  <component name="ProjectResources">
+    <resource url="http://www.loc.gov/mods/v3" location="$USER_HOME$/Documents/schemata/mods-3-5.xsd" />
+    <resource url="http://www.ndltd.org/standards/etdms/1.1" location="$USER_HOME$/Documents/schemata/etdms11.xsd" />
+    <resource url="http://www.w3.org/1999/xlink" location="$USER_HOME$/Documents/schemata/xlink.xsd" />
+    <default-html-doctype>http://www.loc.gov/mods/v3</default-html-doctype>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" default="false" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
   <component name="UnicodeBrowser">
     <option name="fontName" value="PT Mono" />
