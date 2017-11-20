@@ -24,6 +24,7 @@ for $doc in doc('sample-data-uris.xml')//@href/doc(.)
 let $doc-path := replace(document-uri($doc), 'metadata.xml', '')
 let $doc-content := $doc/documents/document
 let $title := $doc-content/title/text()
+let $pub-date-xsdate := xs:dateTime($doc-content/publication-date/text())
 let $pub-date := functx:substring-before-match($doc-content/publication-date/text(), '-[0-9]{2}T')
 let $pub-title := $doc-content/publication-title/text()
 let $sub-date := $doc-content/submission-date/text()
@@ -35,6 +36,9 @@ let $committee-mem := $doc-content/fields/field[@name='advisor2']/value/text()
 (: degree info :)
 let $degree-name := $doc-content/fields/field[@name='degree_name']/value/text()
 let $dept-name := $doc-content/fields/field[@name='department']/value/text()
+let $embargo-date-xsdate := if ($doc-content/fields/field[@name='embargo_date']/value/text())
+                            then (xs:dateTime($doc-content/fields/field[@name='embargo_date']/value/text()))
+                            else ()
 let $embargo := if ($doc-content/fields/field[@name='embargo_date']/value/text())
                 then (xs:date(substring-before($doc-content/fields/field[@name='embargo_date']/value/text(), 'T')))
                 else (xs:date('2011-12-31'))
@@ -53,7 +57,7 @@ let $c-date := format-dateTime(current-dateTime(), '[Y]-[M,2]-[D,2]T[H]:[m]:[s][
 (: return a MODS record :)
 return file:write(concat($doc-path, 'MODS.xml'),
 
-  <mods:mods xmlns="http://www.loc.gov/mods/v3" version="3.5" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:etd="http://www.ndltd.org/standards/etdms/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
+  <mods:mods xmlns="http://www.loc.gov/mods/v3" version="3.5" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:etd="http://www.ndltd.org/standards/metadata/etdms/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
     <mods:identifier type="local">{$sub-path}</mods:identifier>
 
     {for $n in $doc-content/*:authors/*:author
@@ -135,9 +139,15 @@ return file:write(concat($doc-path, 'MODS.xml'),
       then <mods:note displayLabel="Submitted Comment">{$comments}</mods:note>
       else ()}
 
-    {if ($embargo >= xs:date(substring-before($c-date, 'T')))
-      then (<mods:accessCondition type="restriction on access">Restricted: cannot be viewed until {$embargo}</mods:accessCondition>)
-      else ()}
+    {if ($embargo-date-xsdate <= $pub-date-xsdate)
+      then ()
+        else if (($embargo-date-xsdate = xs:dateTime('2011-12-01T00:00:00-08:00')) or ($embargo-date-xsdate = xs:dateTime('2011-12-01T00:00:00-08:00')))
+        then ()
+          else if (($embargo-date-xsdate > $pub-date-xsdate) and ($embargo-date-xsdate < xs:dateTime($c-date)))
+          then (<mods:note displayLabel="Historical embargo date">{$embargo-date-xsdate}</mods:note>)
+            else if (not(xs:string($embargo-date-xsdate)))
+            then ()
+              else (<mods:accessCondition type="restriction on access">This item may not be viewed until: {$embargo-date-xsdate}</mods:accessCondition>)}
 
     <mods:relatedItem type="series">
       <mods:titleInfo lang="eng">
