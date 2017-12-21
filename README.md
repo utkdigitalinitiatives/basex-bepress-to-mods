@@ -11,4 +11,7 @@ It is currently geared towards converting UTKnoxville-specific bepress metadata 
 
 ## Processing ##
 
+### Removing Control Characters ###
+Update the `strip-control-chars.sh` with the appropriate path and run.
+
 Currently, I'm having some confusion with file paths and the database, so the current default branch uses a catalog file for parsing and generating MODS. I'm working on fixing my confusion.
