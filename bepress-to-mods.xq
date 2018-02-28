@@ -150,7 +150,7 @@ return file:write(concat($doc-path, 'MODS.xml'),
       group by $f
       count $count
       return
-        <mods:relatedItem type="constituent-1">
+        <mods:relatedItem type="constituent">
           <mods:titleInfo><mods:title>{replace($f, '^\d{1,}-', '')}</mods:title></mods:titleInfo>
           <mods:physicalDescription>
             <mods:internetMediaType>
