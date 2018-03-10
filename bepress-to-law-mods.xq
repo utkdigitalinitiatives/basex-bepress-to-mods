@@ -20,7 +20,7 @@ declare option output:encoding "UTF-8";
 declare option output:indent "yes";
 
 (: initial FLOWR :)
-for $doc in doc('sample-data-uris.xml')//@href/doc(.)
+for $doc in doc('data-uris.xml')//@href/doc(.)
 let $doc-path := replace(document-uri($doc), 'metadata.xml', '')
 let $doc-content := $doc/documents/document
 let $title := $doc-content/title/text()
@@ -31,6 +31,7 @@ let $sub-date := $doc-content/submission-date/text()
 let $withdrawn-status := $doc-content/withdrawn/text()
 let $sub-path := $doc-content/submission-path/text()
 (: names :)
+let $organization := $doc-content/authors/author/organization/text()
 let $advisor := $doc-content/fields/field[@name='advisor1']/value/text()
 let $committee-mem := $doc-content/fields/field[@name='advisor2']/value/text()
 (: degree info :)
@@ -46,13 +47,23 @@ let $src_ftxt_url := $doc-content/fields/field[@name='source_fulltext_url']/valu
 let $comments := $doc-content/fields/field[@name='comments']/value/text()
 let $discipline := $doc-content/disciplines/discipline/text()
 let $abstract := $doc-content/abstract/text()
-let $keywords := $doc-content/keywords//keyword/text()
+let $keywords := $doc-content/keywords/keyword/text()
 (: supplemental files :)
 let $excludes := ('fulltext.pdf', 'metadata.xml')
 let $file-list := file:list($doc-path)
 let $suppl-archive-name := $doc-content/supplemental-files/file/archive-name/text()
 (: dates :)
 let $c-date := format-dateTime(current-dateTime(), '[Y]-[M,2]-[D,2]T[H]:[m]:[s][Z]')
+(: custom fields :)
+let $citation := $doc-content/fields/field[@name='custom_citation']/value/text()
+let $hearing_date := $doc-content/fields/field[@name='start_date']/value/text()
+let $docket_number := $doc-content/fields/field[@name='docket_num']/value/text()
+let $judge := $doc-content/fields/field[@name='judge']/value/text()
+let $attorney := $doc-content/fields/field[@name='attorney']/value/text()
+let $party := $doc-content/fields/field[@name='party']/value/text()
+let $notification_date := $doc-content/fields/field[@name="notification_date"]/value/text()
+let $division := $doc-content/fields/field[@name="division"]/value/text()
+let $decision_date := $doc-content/fields/field[@name="date"]/value/text()
 
 (: return a MODS record :)
 return file:write(concat($doc-path, 'MODS.xml'),
@@ -109,11 +120,34 @@ return file:write(concat($doc-path, 'MODS.xml'),
 
     <mods:abstract>{$abstract}</mods:abstract>
 
+    <!-- /name[@type="corporate"]/namePart with role/roleTerm="Creator" -->
+    {if ($organization)
+      then <mods:name type="corporate">
+             <mods:namePart>{$organization}</mods:namePart>
+               <mods:role>
+                 <mods:roleTerm authority="marcrelator" valueURI="http://id.loc.gov/vocabulary/relators/cre">Creator</mods:roleTerm>
+               </mods:role>
+           </mods:name>
+     else()
+    }
+
     <mods:typeOfResource>text</mods:typeOfResource>
 
     <mods:originInfo>
       <mods:dateCreated encoding="w3cdtf">{$sub-date}</mods:dateCreated>
       <mods:dateIssued keyDate="yes" encoding="edtf">{$pub-date}</mods:dateIssued>
+        {if ($hearing_date)
+          then <mods:dateOther type="Hearing date">{$hearing_date}</mods:dateOther>
+         else()
+        }
+        {if ($notification_date)
+          then <mods:dateOther type="Notification date">{$notification_date}</mods:dateOther>
+         else()
+        }
+        {if ($decision_date)
+          then <mods:dateOther type="Decision date">{$decision_date}</mods:dateOther>
+          else()
+        }
     </mods:originInfo>
 
     {if (starts-with($sub-path, 'utk_grad'))
@@ -127,17 +161,69 @@ return file:write(concat($doc-path, 'MODS.xml'),
             <mods:genre authority="lcgft" valueURI="http://id.loc.gov/authorities/genreForms/gf2014026039">Academic theses</mods:genre>)
       else ()}
 
-    {if (matches($pub-title, 'Doctoral Dissertations'))
-      then (<mods:genre authority="coar" valueURI="http://purl.org/coar/resource_type/c_db06">doctoral thesis</mods:genre>)
-        else if (matches($pub-title, 'Masters Theses'))
-        then (<mods:genre authority="coar" valueURI="http://purl.org/coar/resource_type/c_bdcc">masters thesis</mods:genre>)
-          else ()}
+    <!-- /relatedItem[@type="series"]/titleInfo/title -->
+    <mods:relatedItem type="series"><mods:titleInfo><mods:title>{$pub-title}</mods:title></mods:titleInfo></mods:relatedItem>
+
+    <!-- /documents/document/keywords/keyword -->
+      {for $kw in $keywords
+        return
+            <mods:subject>
+                <mods:name>
+                    <mods:namePart>{$kw}</mods:namePart>
+                </mods:name>
+            </mods:subject>
+      }
 
     <mods:note displayLabel="Keywords submitted by author">{string-join( ($keywords), ', ')}</mods:note>
 
     {if ($comments)
       then <mods:note displayLabel="Submitted Comment">{$comments}</mods:note>
       else ()}
+
+    {if ($citation)
+      then
+          <mods:note displayLabel="citation">{$citation}</mods:note>
+      else()}
+
+    {if ($docket_number)
+      then <mods:note displayLabel="Docket number">{$docket_number}</mods:note>
+      else()
+    }
+
+    {if ($division)
+      then <mods:note displayLabel="Agency and Division">{$division}</mods:note>
+      else()
+    }
+
+    {if ($judge)
+      then <mods:name>
+            <mods:namePart>{$judge}</mods:namePart>
+            <mods:role>
+                <mods:roleTerm authority="local">Judge</mods:roleTerm>
+            </mods:role>
+           </mods:name>
+      else()
+    }
+
+    {if($attorney)
+      then <mods:name>
+            <mods:namePart>{$attorney}</mods:namePart>
+            <mods:role>
+                <mods:roleTerm authority="local">Attorney</mods:roleTerm>
+            </mods:role>
+        </mods:name>
+      else()
+    }
+
+    {if($party)
+      then <mods:name>
+            <mods:namePart>{$party}</mods:namePart>
+            <mods:role>
+                <mods:roleTerm authority="local">Party</mods:roleTerm>
+            </mods:role>
+        </mods:name>
+      else()
+    }
 
     {if ($embargo-date-xsdate <= $pub-date-xsdate)
       then ()
