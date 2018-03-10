@@ -65,7 +65,6 @@ return file:write(concat($doc-path, 'MODS.xml'),
           <mods:topic>{$s}</mods:topic>
         </mods:subject>}
 
-    <!-- /name[@type="corporate"]/namePart with role/roleTerm="Creator" -->
     {if ($organization)
       then <mods:name type="corporate">
              <mods:namePart>{$organization}</mods:namePart>
@@ -95,14 +94,12 @@ return file:write(concat($doc-path, 'MODS.xml'),
         }
     </mods:originInfo>
 
-    <!-- /relatedItem[@type="series"]/titleInfo/title -->
     <mods:relatedItem type="series">
         <mods:titleInfo>
             <mods:title>{$pub-title}</mods:title>
         </mods:titleInfo>
     </mods:relatedItem>
 
-    <!-- /documents/document/keywords/keyword -->
       {for $kw in $keywords
         return
             <mods:subject>
@@ -111,8 +108,6 @@ return file:write(concat($doc-path, 'MODS.xml'),
                 </mods:name>
             </mods:subject>
       }
-
-    <mods:note displayLabel="Keywords submitted by author">{string-join( ($keywords), ', ')}</mods:note>
 
     {if ($comments)
       then <mods:note displayLabel="Submitted Comment">{$comments}</mods:note>
