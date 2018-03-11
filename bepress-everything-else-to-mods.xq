@@ -38,7 +38,6 @@ let $compilier := $doc-content/fields/field[@name="compilier"]/value/text()
 let $honors-advisor := $doc-content/fields/field[@name="advisor3"]/value/text()
 (: degree info :)
 let $degree-name := $doc-content/fields/field[@name='degree_name']/value/text()
-let $dept-name := $doc-content/fields/field[@name='department']/value/text()
 let $embargo-date-xsdate := if ($doc-content/fields/field[@name='embargo_date']/value/text())
                             then (xs:dateTime($doc-content/fields/field[@name='embargo_date']/value/text()))
                             else ()
@@ -71,6 +70,8 @@ let $start-date := $doc-content/fields/field[@name="start_date"]/value/text()
 let $end-date := $doc-content/fields/field[@name="end_date"]/value/text()
 let $comment-url := $doc-content/fields/field[@name="url"]/value/text()
 let $contact-info := $doc-content/fields/field[@name="contact_info"]/value/text()
+let $dept-name := $doc-content/fields/field[@name='department']/value/text()
+let $college := $doc-content/fields/field[@name='college']/value/text()
 
 (: return a MODS record :)
 return file:write(concat($doc-path, 'MODS.xml'),
@@ -104,14 +105,16 @@ return file:write(concat($doc-path, 'MODS.xml'),
             <mods:role>
                 <mods:roleTerm authority="marcrelator" valueURI="http://id.loc.gov/vocabulary/relators/cre">Creator</mods:roleTerm>
             </mods:role>
-            {if ($institution)
-              then (<mods:affiliation/>,
-                <mods:affiliation/>,
-                <mods:affiliaton/>,
-                <mods:affiliation/>,
-                <mods:affiliation/>,
-                <mods:affiliation>{$institution}</mods:affiliation>)
-              else()}
+            {if ($dept-name or $college or $institution)
+              then (<mods:affiliation>{$dept-name}</mods:affiliation>,
+                    <mods:affiliation/>,
+                    <mods:affiliation/>,
+                    <mods:affiliation/>,
+                    <mods:affiliation>{$college}</mods:affiliation>,
+                    <mods:affiliation>{$institution}</mods:affiliation>
+                    )
+              else()
+            }
         </mods:name>
         }
 
