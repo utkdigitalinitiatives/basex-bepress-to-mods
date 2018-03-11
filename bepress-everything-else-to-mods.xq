@@ -115,12 +115,15 @@ return file:write(concat($doc-path, 'MODS.xml'),
         </mods:name>
         }
 
-    <mods:name>
-      <mods:displayForm>{$advisor}</mods:displayForm>
-      <mods:role>
-        <mods:roleTerm type="text" authority="marcrelator" valueURI="http://id.loc.gov/vocabulary/relators/ths">Thesis advisor</mods:roleTerm>
-      </mods:role>
-    </mods:name>
+
+    {if ($advisor)
+        then (<mods:name>
+              <mods:displayForm>{$advisor}</mods:displayForm>
+              <mods:role>
+                  <mods:roleTerm type="text" authority="marcrelator" valueURI="http://id.loc.gov/vocabulary/relators/ths">Thesis advisor</mods:roleTerm>
+              </mods:role></mods:name>)
+        else()
+      }
 
     {for $possible-cms in $committee-mem
     let $cms := tokenize($possible-cms, ',')
@@ -144,8 +147,6 @@ return file:write(concat($doc-path, 'MODS.xml'),
         </mods:subject>}
 
     <mods:abstract>{$abstract}</mods:abstract>
-
-    <mods:typeOfResource>text</mods:typeOfResource>
 
     <mods:originInfo>
       <mods:dateCreated encoding="w3cdtf">{$sub-date}</mods:dateCreated>
@@ -247,8 +248,8 @@ return file:write(concat($doc-path, 'MODS.xml'),
 
     <mods:recordInfo displayLabel="Submission">
       <mods:recordCreationDate encoding="w3cdtf">{$sub-date}</mods:recordCreationDate>
-      <mods:recordContentSource>University of Tennessee, Knoxville Libraries</mods:recordContentSource>
-      <mods:recordOrigin>Converted from bepress XML to MODS in general compliance to the MODS Guidelines (Version 3.5).</mods:recordOrigin>
+      <mods:recordContentSource authority="isni" valueURI="http://www.isni.org/isni/0000000123151184">University of Tennessee (Knoxville)</mods:recordContentSource>
+      <mods:recordOrigin>Converted from BePress XML to MODS using bepress-everything-else-to-mods.xq in general compliance with MODS 3.5.</mods:recordOrigin>
       <mods:recordChangeDate encoding="w3cdtf">{$c-date}</mods:recordChangeDate>
     </mods:recordInfo>
 
