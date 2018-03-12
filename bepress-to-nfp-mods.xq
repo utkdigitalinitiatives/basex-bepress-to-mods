@@ -30,23 +30,13 @@ let $pub-title := $doc-content/publication-title/text()
 let $sub-date := $doc-content/submission-date/text()
 let $sub-path := $doc-content/submission-path/text()
 (: names :)
-let $organization := $doc-content/authors/author/organization/text()
 (: degree info :)
 let $src_ftxt_url := $doc-content/fields/field[@name='source_fulltext_url']/value/text()
-let $discipline := $doc-content/disciplines/discipline/text()
 let $keywords := $doc-content/keywords//keyword/text()
 (: dates :)
 let $c-date := format-dateTime(current-dateTime(), '[Y]-[M,2]-[D,2]T[H]:[m]:[s][Z]')
 (: custom fields :)
 let $citation := $doc-content/fields/field[@name='custom_citation']/value/text()
-let $hearing_date := $doc-content/fields/field[@name='start_date']/value/text()
-let $docket_number := $doc-content/fields/field[@name='docket_num']/value/text()
-let $judge := $doc-content/fields/field[@name='judge']/value/text()
-let $attorney := $doc-content/fields/field[@name='attorney']/value/text()
-let $party := $doc-content/fields/field[@name='party']/value/text()
-let $notification_date := $doc-content/fields/field[@name="notification_date"]/value/text()
-let $division := $doc-content/fields/field[@name="division"]/value/text()
-let $decision_date := $doc-content/fields/field[@name="date"]/value/text()
 let $abstract := $doc-content/abstract/text()
 let $embargo_date := $doc-content/fields/field[@name="embargo_date"]/value/text()
 let $doi := $doc-content/fields/field[@name="doi"]/value/text()
@@ -86,23 +76,6 @@ return file:write(concat($doc-path, 'MODS.xml'),
           </mods:role>
         </mods:name>}
 
-
-    {for $s in $discipline
-      return
-        <mods:subject>
-          <mods:topic>{$s}</mods:topic>
-        </mods:subject>}
-
-    {if ($organization)
-      then <mods:name type="corporate">
-             <mods:namePart>{$organization}</mods:namePart>
-               <mods:role>
-                 <mods:roleTerm authority="marcrelator" valueURI="http://id.loc.gov/vocabulary/relators/cre">Creator</mods:roleTerm>
-               </mods:role>
-           </mods:name>
-     else()
-    }
-
     <mods:typeOfResource>text</mods:typeOfResource>
 
       {if ($abstract)
@@ -113,18 +86,6 @@ return file:write(concat($doc-path, 'MODS.xml'),
     <mods:originInfo>
       <mods:dateCreated encoding="w3cdtf">{$sub-date}</mods:dateCreated>
       <mods:dateIssued keyDate="yes" encoding="edtf">{$pub-date}</mods:dateIssued>
-        {if ($hearing_date)
-          then <mods:dateOther type="Hearing date" encoding="w3cdtf">{$hearing_date}</mods:dateOther>
-         else()
-        }
-        {if ($notification_date)
-          then <mods:dateOther type="Notification date" encoding="w3cdtf">{$notification_date}</mods:dateOther>
-         else()
-        }
-        {if ($decision_date)
-          then <mods:dateOther type="Decision date" encoding="w3cdtf">{$decision_date}</mods:dateOther>
-          else()
-        }
         {if ($city)
           then <mods:place>{$city}</mods:place>
           else()
@@ -160,46 +121,6 @@ return file:write(concat($doc-path, 'MODS.xml'),
       then
           <mods:note displayLabel="citation">{$citation}</mods:note>
       else()}
-
-    {if ($docket_number)
-      then <mods:note displayLabel="Docket number">{$docket_number}</mods:note>
-      else()
-    }
-
-    {if ($division)
-      then <mods:note displayLabel="Agency and Division">{$division}</mods:note>
-      else()
-    }
-
-    {if ($judge)
-      then <mods:name>
-            <mods:namePart>{$judge}</mods:namePart>
-            <mods:role>
-                <mods:roleTerm authority="local">Judge</mods:roleTerm>
-            </mods:role>
-           </mods:name>
-      else()
-    }
-
-    {if($attorney)
-      then <mods:name>
-            <mods:namePart>{$attorney}</mods:namePart>
-            <mods:role>
-                <mods:roleTerm authority="local">Attorney</mods:roleTerm>
-            </mods:role>
-        </mods:name>
-      else()
-    }
-
-    {if($party)
-      then <mods:name>
-            <mods:namePart>{$party}</mods:namePart>
-            <mods:role>
-                <mods:roleTerm authority="local">Party</mods:roleTerm>
-            </mods:role>
-        </mods:name>
-      else()
-    }
 
     {if ($embargo_date)
       then <mods:note displayLabel="Historical Embargo Date">{$embargo_date}</mods:note>
