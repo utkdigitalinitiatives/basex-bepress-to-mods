@@ -96,6 +96,19 @@ return file:write(concat($doc-path, 'MODS.xml'),
         }
     </mods:originInfo>
 
+  <mods:physicalDescription>
+      <mods:form valueURI="http://purl.org/coar/resource_type/c_2f33" authority="coar">book</mods:form>
+  </mods:physicalDescription>
+
+  <mods:relatedItem type="host" displayLabel="series">
+      <mods:titleInfo>
+          <mods:title>Newfound Press</mods:title>
+      </mods:titleInfo>
+      <mods:location>
+          <mods:url>https://newfoundpress.utk.edu/</mods:url>
+      </mods:location>
+  </mods:relatedItem>
+
     <mods:relatedItem type="series">
         <mods:titleInfo>
             <mods:title>{$pub-title}</mods:title>
@@ -124,14 +137,17 @@ return file:write(concat($doc-path, 'MODS.xml'),
 
     {if ($embargo_date)
       then <mods:note displayLabel="Historical Embargo Date">{$embargo_date}</mods:note>
+    else()
     }
 
     {if ($doi)
       then <mods:identifier type="doi">{$doi}</mods:identifier>
+    else()
     }
 
     {if ($isbn)
       then <mods:identifier type="isbn">{$isbn}</mods:identifier>
+      else()
     }
     {if ($editor_information)
       then <mods:name>
