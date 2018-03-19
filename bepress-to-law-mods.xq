@@ -18,9 +18,10 @@ declare option output:method "xml";
 declare option output:omit-xml-declaration "no";
 declare option output:encoding "UTF-8";
 declare option output:indent "yes";
+declare variable $source_filepath as xs:string+ external;
 
 (: initial FLOWR :)
-for $doc in doc('data-uris.xml')//@href/doc(.)
+for $doc in doc($source_filepath)//@href/doc(.)
 let $doc-path := replace(document-uri($doc), 'metadata.xml', '')
 let $doc-content := $doc/documents/document
 let $title := $doc-content/title/text()
