@@ -162,7 +162,6 @@ return file:write(concat($doc-path, 'MODS.xml'),
         (:where (replace($f, '^\d{1,}-', '')):)
         where ($f[matches(., '^\d{1,}-')])
         order by $f ascending
-        count $count
         return
           <mods:relatedItem type="constituent">
             <mods:titleInfo><mods:title>{replace($f, '^\d{1,}-', '')}</mods:title></mods:titleInfo>
@@ -176,14 +175,13 @@ return file:write(concat($doc-path, 'MODS.xml'),
             {if ($doc-content/*:supplemental-files/*:file/*:archive-name[. = replace($f, '^\d{1,}-', '')]/following-sibling::*:description)
             then (<mods:abstract>{$doc-content/*:supplemental-files/*:file/*:archive-name[. = replace($f, '^\d{1,}-', '')]/following-sibling::*:description/text()}</mods:abstract>)
             else()}
-            <mods:note displayLabel="supplemental_file">{'SUPPL_' || $count}</mods:note>
+            <mods:note displayLabel="supplemental_file">{'SUPPL_'  || (xs:integer(functx:substring-before-match($f, '-')) + 1)}</mods:note>
           </mods:relatedItem>
       )
       else (
         for $f in ($file-list)
         where (replace($f, '^\d{1,}-', ''))[(. = $suppl-archive-name)]
-        group by $f
-        count $count
+        order by $f ascending
         return
           <mods:relatedItem type="constituent">
             <mods:titleInfo><mods:title>{replace($f, '^\d{1,}-', '')}</mods:title></mods:titleInfo>
@@ -197,7 +195,7 @@ return file:write(concat($doc-path, 'MODS.xml'),
             {if ($doc-content/*:supplemental-files/*:file/*:archive-name[. = replace($f, '^\d{1,}-', '')]/following-sibling::*:description)
             then (<mods:abstract>{$doc-content/*:supplemental-files/*:file/*:archive-name[. = replace($f, '^\d{1,}-', '')]/following-sibling::*:description/text()}</mods:abstract>)
             else()}
-            <mods:note displayLabel="supplemental_file">{'SUPPL_' || $count}</mods:note>
+            <mods:note displayLabel="supplemental_file">{'SUPPL_'  || (xs:integer(functx:substring-before-match($f, '-')) + 1)}</mods:note>
           </mods:relatedItem>
       )}
 
