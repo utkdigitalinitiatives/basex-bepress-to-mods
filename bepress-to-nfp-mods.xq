@@ -88,7 +88,7 @@ return file:write(concat($doc-path, 'MODS.xml'),
       <mods:dateCreated encoding="w3cdtf">{$sub-date}</mods:dateCreated>
       <mods:dateIssued keyDate="yes" encoding="edtf">{$pub-date}</mods:dateIssued>
         {if ($city)
-          then <mods:place>{$city}</mods:place>
+          then <mods:place><mods:placeTerm>{$city}</mods:placeTerm></mods:place>
           else()
         }
         {if ($publisher)
