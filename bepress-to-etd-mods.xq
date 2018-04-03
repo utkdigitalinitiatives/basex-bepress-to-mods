@@ -162,7 +162,7 @@ return file:write(concat($doc-path, 'MODS.xml'),
         (:where (replace($f, '^\d{1,}-', '')):)
         where ($f[matches(., '^\d{1,}-')])
         count $count
-        order by $f ascending
+        order by $f descending
         return
           <mods:relatedItem type="constituent">
             <mods:titleInfo><mods:title>{replace($f, '^\d{1,}-', '')}</mods:title></mods:titleInfo>
@@ -184,7 +184,7 @@ return file:write(concat($doc-path, 'MODS.xml'),
         for $f in ($file-list)
         where (replace($f, '^\d{1,}-', ''))[(. = $suppl-archive-name)]
         count $count
-        order by $f ascending
+        order by $f descending
         return
           <mods:relatedItem type="constituent">
             <mods:titleInfo><mods:title>{replace($f, '^\d{1,}-', '')}</mods:title></mods:titleInfo>
