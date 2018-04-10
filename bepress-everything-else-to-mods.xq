@@ -234,7 +234,7 @@ return file:write(concat($doc-path, 'MODS.xml'),
         for $f in ($file-list)
         (:where (replace($f, '^\d{1,}-', '')):)
         where ($f[matches(., '^\d{1,}-')])
-        group by $f
+        order by $f ascending
         count $count
         return
           <mods:relatedItem type="constituent">
@@ -250,12 +250,13 @@ return file:write(concat($doc-path, 'MODS.xml'),
             then (<mods:abstract>{$doc-content/*:supplemental-files/*:file/*:archive-name[. = replace($f, '^\d{1,}-', '')]/following-sibling::*:description/text()}</mods:abstract>)
             else()}
             <mods:note displayLabel="supplemental_file">{'SUPPL_' || $count}</mods:note>
+            <mods:note displayLabel="supplemental_filename">{$f}</mods:note>
           </mods:relatedItem>
       )
       else (
         for $f in ($file-list)
         where (replace($f, '^\d{1,}-', ''))[(. = $suppl-archive-name)]
-        group by $f
+        order by $f ascending
         count $count
         return
           <mods:relatedItem type="constituent">
@@ -271,6 +272,7 @@ return file:write(concat($doc-path, 'MODS.xml'),
             then (<mods:abstract>{$doc-content/*:supplemental-files/*:file/*:archive-name[. = replace($f, '^\d{1,}-', '')]/following-sibling::*:description/text()}</mods:abstract>)
             else()}
             <mods:note displayLabel="supplemental_file">{'SUPPL_' || $count}</mods:note>
+            <mods:note displayLabel="supplemental_filename">{$f}</mods:note>
           </mods:relatedItem>
 )}
 
