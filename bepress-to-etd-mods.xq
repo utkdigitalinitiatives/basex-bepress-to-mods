@@ -182,7 +182,8 @@ return file:write(concat($doc-path, 'MODS.xml'),
       )
       else (
         for $f in ($file-list)
-        where (replace($f, '^\d{1,}-', ''))[(. = $suppl-archive-name)]
+        where ($f[matches(., '^\d{1,}-')])
+        and (replace($f, '^\d{1,}-', ''))[(. = $suppl-archive-name)]
         order by $f ascending
         count $count
         return
